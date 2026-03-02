@@ -94,8 +94,53 @@
     });
 
     // ===== CART BUTTON =====
-    document.getElementById("add-to-cart-btn")
-      .addEventListener("click", () => addToCart(product));
+    // ===== CART BUTTON =====
+const addBtn = document.getElementById("add-to-cart-btn");
+
+function getProductQty(id) {
+  const cart = getCart();
+  const item = cart.find(p => p.id === id);
+  return item ? item.qty : 0;
+}
+
+function renderButton() {
+  const qty = getProductQty(product.id);
+
+  if (qty === 0) {
+    addBtn.innerText = "Add to Cart";
+    addBtn.classList.remove("qty-mode");
+  } else {
+    addBtn.innerHTML = `
+      <span class="decrease">−</span>
+      <span class="quantity">${qty}</span>
+      <span class="increase">+</span>
+    `;
+    addBtn.classList.add("qty-mode");
+  }
+}
+
+// Initial render
+renderButton();
+
+addBtn.addEventListener("click", function(e) {
+
+  const qty = getProductQty(product.id);
+
+  if (qty === 0) {
+    addToCart(product);
+    alert("Added to cart");
+  }
+
+  if (e.target.classList.contains("increase")) {
+    increaseQty(product.id);
+  }
+
+  if (e.target.classList.contains("decrease")) {
+    decreaseQty(product.id);
+  }
+
+  renderButton();
+});
   }
 </script>
 

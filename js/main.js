@@ -59,10 +59,52 @@ function renderProducts(list) {
     });
 
     /* ===== ADD TO CART ===== */
-    card.querySelector("button").addEventListener("click", e => {
-      e.stopPropagation();
-      addToCart(product);
-    });
+    const btn = card.querySelector("button");
+
+function getProductQty(id) {
+  const cart = getCart();
+  const item = cart.find(p => p.id === id);
+  return item ? item.qty : 0;
+}
+
+function renderButton() {
+  const qty = getProductQty(product.id);
+
+  if (qty === 0) {
+    btn.innerText = "Add to Cart";
+    btn.classList.remove("qty-mode");
+  } else {
+    btn.innerHTML = `
+      <span class="decrease">−</span>
+      <span class="quantity">${qty}</span>
+      <span class="increase">+</span>
+    `;
+    btn.classList.add("qty-mode");
+  }
+}
+
+renderButton();
+
+btn.addEventListener("click", e => {
+  e.stopPropagation();
+
+  const qty = getProductQty(product.id);
+
+  if (qty === 0) {
+    addToCart(product);
+    alert("Added to cart");
+  }
+
+  if (e.target.classList.contains("increase")) {
+    increaseQty(product.id);
+  }
+
+  if (e.target.classList.contains("decrease")) {
+    decreaseQty(product.id);
+  }
+
+  renderButton();
+});
 
     container.appendChild(card);
   });
@@ -112,3 +154,4 @@ setInterval(() => {
   const next = (currentSlide + 1) % slides.length;
   showSlide(next);
 }, 4500);
+
