@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Product | Hridh</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><img src="/images/black hridh_4-removebg-preview.png"></a>
+    <nav class="nav">
+      <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
+    </nav>
+  </div>
+</header>
+
+<main class="pdp">
+
+  <div class="pdp-gallery">
+    <img id="main-image" src="" alt="Product image" />
+    <div id="thumbs" class="pdp-thumbs"></div>
+  </div>
+
+  <div class="pdp-info">
+    <h2 id="product-name"></h2>
+
+    <div class="pdp-pricing">
+      <div class="deal-badge">Launch Offer</div>
+
+      <div class="price-row">
+        <span class="discount" id="product-discount"></span>
+        <span class="final-price" id="product-price"></span>
+      </div>
+
+      <div class="mrp">
+        M.R.P: <span id="product-mrp"></span>
+      </div>
+    </div>
+
+    <p class="pdp-desc" id="product-desc"></p>
+
+    <button id="add-to-cart-btn">Add to Cart</button>
+  </div>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <p>© 2026 HRIDH</p>
+  </div>
+</footer>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+
+<script>
+  updateCartCount();
+
+  const params = new URLSearchParams(window.location.search);
+  const id = Number(params.get("id"));
+  const product = products.find(p => p.id === id);
+
+  if (!product) {
+    document.querySelector(".pdp").innerHTML = "<p>Product not found</p>";
+  } else {
+
+    document.getElementById("product-name").innerText = product.name;
+    document.getElementById("product-desc").innerText = product.description;
+
+    // ===== PRICE CALCULATION =====
+    const discount = Math.round(
+      ((product.originalPrice - product.price) / product.originalPrice) * 100
+    );
+
+    document.getElementById("product-price").innerText = "₹" + product.price;
+    document.getElementById("product-mrp").innerText = "₹" + product.originalPrice;
+    document.getElementById("product-discount").innerText = "-" + discount + "%";
+
+    // ===== IMAGE GALLERY =====
+    const mainImage = document.getElementById("main-image");
+    const thumbs = document.getElementById("thumbs");
+
+    mainImage.src = product.images[0];
+
+    product.images.forEach(img => {
+      const thumb = document.createElement("img");
+      thumb.src = img;
+      thumb.addEventListener("click", () => {
+        mainImage.src = img;
+      });
+      thumbs.appendChild(thumb);
+    });
+
+    // ===== CART BUTTON =====
+    document.getElementById("add-to-cart-btn")
+      .addEventListener("click", () => addToCart(product));
+  }
+</script>
+
+</body>
+</html>
