@@ -9,101 +9,78 @@
 
 <body>
 
+<div id="toast" class="toast"></div>
+
 <header class="header">
   <div class="header-inner">
-    <a href="index.html" class="logo"><img src="/images/black hridh_4-removebg-preview.png"></a>
+    <a href="index.html" class="logo">
+      <img src="/images/black hridh_4-removebg-preview.png">
+    </a>
 
-    <!-- LOGO -->
-
-    <!-- SEARCH BAR -->
     <div class="nav-search">
-      <input
-        type="text"
-        id="nav-search-input"
-        placeholder="Search for products"
-      />
-      <button id="nav-search-btn" aria-label="Search">
-        🔍
-      </button>
+      <input type="text" id="nav-search-input" placeholder="Search for products"/>
+      <button id="nav-search-btn" aria-label="Search">🔍</button>
     </div>
 
-    <!-- NAV LINKS -->
     <nav class="nav">
       <a href="#faq">FAQ</a>
-      <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
+      <a href="/cart.html">Cart (<span id="cart-count">0</span>)</a>
     </nav>
-
   </div>
 </header>
 
 <main>
 
-    <!-- ===== HERO SLIDER ===== -->
-<!-- <section class="slider">
-  <div class="slides">
-    <div class="slide active" style="background-image:url('images/product1_1.jpeg')">
-      <div class="slide-content">
-        <h2>Everyday Essentials</h2>
-        <p>Minimal silhouettes for modern India</p>
+<section class="hero">
+  <h2>"Hand-Painted Exclusive Art Stoles”</h2>
+  <p style="font-size: 20px;">Each stole is one-of-a-kind of Creative Wonder !</p>
+</section>
+
+<section id="shop" class="product-section">
+  <h3 class="section-title">Genuine Collection</h3>
+  <div id="products" class="product-grid"></div>
+</section>
+
+<section id="faq" class="faq-section">
+  <h3 class="section-title">Frequently Asked Questions</h3>
+
+  <div class="faq-container">
+
+    <div class="faq">
+      <button class="faq-question">
+        Delivery timeline?
+        <span>+</span>
+      </button>
+      <div class="faq-answer">
+        <p>Orders ship in 2–3 days and arrive within 5–7 days.</p>
+        <p>Prepaid: free shipping</p>
+        <p>COD: ₹50 convenience fee</p>
       </div>
     </div>
 
-    <div class="slide" style="background-image:url('images/product3_1.jpeg')">
-      <div class="slide-content">
-        <h2>Crafted Comfort</h2>
-        <p>Designed to be worn, not just styled</p>
+    <div class="faq">
+      <button class="faq-question">
+        Returns & exchanges
+        <span>+</span>
+      </button>
+      <div class="faq-answer">
+        <p>Each stole is one-of-a-kind. No returns or exchanges.</p>
       </div>
     </div>
 
-    <div class="slide" style="background-image:url('images/product4_2.jpeg')">
-      <div class="slide-content">
-        <h2>Timeless Fits</h2>
-        <p>Fashion that doesn’t chase trends</p>
+    <div class="faq">
+      <button class="faq-question">
+        Support
+        <span>+</span>
+      </button>
+      <div class="faq-answer">
+        <p>Email: support@hridh.com</p>
+        <p>Call / WhatsApp: 6289552741</p>
       </div>
     </div>
+
   </div>
-
-  <div class="slider-dots">
-    <span class="dot active"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-  </div>
-</section> -->
-
-  <section class="hero">
-    <h2>"Hand-Painted Exclusive Art Stoles”</h2>
-    <p style="font-size: 20px;">Each stole is one-of-a-kind of Creative Wonder !</p>
-  </section>
-
-  <section id="shop" class="product-section">
-    <h3 class="section-title">Genuine Collection</h3>
-    <div id="products" class="product-grid"></div>
-  </section>
-
-  <section id="faq" class="faq-section">
-    <h3 class="section-title">FAQ</h3>
-
-    <div class="faq-item">
-      <h4>Delivery timeline?</h4>
-      <p>Orders ship in 2–3 days and arrive within 5–7 days.</p>
-      <p>Prepaid: free shipping</P>
-
-     <p>COD: Additional ₹50 will be charged as Convenience fees</p> 
-
-     <p>COD allowed only on selected pincodes.</p>
-    </div>
-
-    <div class="faq-item">
-      <h4>Returns?</h4>
-      <p>T&C - " Each stole is one-of-a-kind hand-painted artwork. Due to its exclusive nature, returns or exchanges are not possible.” </p>
-    </div>
-
-    <div class="faq-item">
-      <h4>Support?</h4>
-      <p>support@hridh.com</p>
-      <p>Contact : Call / whatsapp 6289552741</p>
-    </div>
-  </section>
+</section>
 
 </main>
 

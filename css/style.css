@@ -484,3 +484,146 @@ button.qty-mode span {
   cursor: pointer;
   font-size: 16px;
 }
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #111;
+  color: white;
+  padding: 14px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== CLEAN QUANTITY STYLE ===== */
+
+/* ===== FIXED QUANTITY MODE ===== */
+
+.product-card button.qty-mode,
+#add-to-cart-btn.qty-mode {
+  background: #ffffff !important;
+  color: #111 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  border-radius: 50px;
+  padding: 8px 20px;
+  border: 1px solid #e5e5e5;
+}
+
+.qty-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #111;
+  color: #ffffff;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.qty-btn:hover {
+  background: #333;
+  transform: scale(1.05);
+}
+
+.quantity {
+  font-weight: 600;
+  font-size: 16px;
+  color: #111;   /* force visible */
+  min-width: 24px;
+  text-align: center;
+}
+.toast {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  background: #111;
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.3s ease;
+  z-index: 9999;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== MODERN FAQ ===== */
+
+.faq-section {
+  max-width: 900px;
+  margin: 100px auto;
+  padding: 0 40px;
+}
+
+.faq-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.faq {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+.faq:hover {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.faq-question {
+  width: 100%;
+  padding: 18px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  background: none;
+  border: none;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.faq-question span {
+  font-size: 18px;
+  color: var(--muted);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 20px;
+  transition: max-height 0.3s ease;
+}
+
+.faq-answer p {
+  font-size: 14px;
+  color: var(--muted);
+  padding-bottom: 14px;
+}

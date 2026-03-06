@@ -1,157 +1,104 @@
 const container = document.getElementById("products");
 const searchInput = document.getElementById("nav-search-input");
 
-/* ===== RENDER PRODUCTS ===== */
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  if (!toast) return;
+  toast.innerText = message;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 2000);
+}
+
 function renderProducts(list) {
   container.innerHTML = "";
 
-  if (list.length === 0) {
-    container.innerHTML = `
-      <p style="color:#777;text-align:center;">
-        No products found
-      </p>
-    `;
-    return;
-  }
-
   list.forEach(product => {
-    const discount = product.originalPrice
-      ? Math.round(
-          ((product.originalPrice - product.price) / product.originalPrice) * 100
-        )
-      : 0;
 
     const card = document.createElement("div");
     card.className = "product-card";
 
     card.innerHTML = `
-      <img src="${product.images[0]}" alt="${product.name}" />
+      <img src="${product.images[0]}" />
       <div class="product-card-content">
         <h3>${product.name}</h3>
         <p class="product-code">${product.code}</p>
-
-        ${
-          product.originalPrice
-            ? `
-          <div class="deal-badge">Launch Offer</div>
-          <div class="price-row">
-            <span class="discount">-${discount}%</span>
-            <span class="final-price">₹${product.price}</span>
-          </div>
-          <div class="mrp">
-            M.R.P: <span>₹${product.originalPrice}</span>
-          </div>
-        `
-            : `<p>₹${product.price}</p>`
-        }
-
+        <div class="deal-badge">Launch Offer</div>
+        <div class="price-row">
+  <span class="discount">-${Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%</span>
+  <span class="final-price">₹${product.price}</span>
+  <span class="mrp">₹${product.originalPrice}</span>
+</div>
         <button>Add to Cart</button>
       </div>
     `;
 
-    /* ===== NAVIGATION TO PRODUCT PAGE ===== */
-    card.querySelector("img").addEventListener("click", () => {
-      window.location.href = `product.html?id=${product.id}`;
-    });
-
-    card.querySelector("h3").addEventListener("click", () => {
-      window.location.href = `product.html?id=${product.id}`;
-    });
-
-    /* ===== ADD TO CART ===== */
     const btn = card.querySelector("button");
 
-function getProductQty(id) {
-  const cart = getCart();
-  const item = cart.find(p => p.id === id);
-  return item ? item.qty : 0;
-}
+    function getQty() {
+      const cart = getCart();
+      const item = cart.find(p => p.id === product.id);
+      return item ? item.qty : 0;
+    }
 
-function renderButton() {
-  const qty = getProductQty(product.id);
+    function renderBtn() {
+  const qty = getQty();
 
   if (qty === 0) {
     btn.innerText = "Add to Cart";
     btn.classList.remove("qty-mode");
   } else {
     btn.innerHTML = `
-      <span class="decrease">−</span>
+      <span class="qty-btn decrease">−</span>
       <span class="quantity">${qty}</span>
-      <span class="increase">+</span>
+      <span class="qty-btn increase">+</span>
     `;
     btn.classList.add("qty-mode");
   }
 }
 
-renderButton();
+    renderBtn();
 
-btn.addEventListener("click", e => {
-  e.stopPropagation();
+    btn.onclick = function(e) {
+      e.stopPropagation();
+      const qty = getQty();
 
-  const qty = getProductQty(product.id);
+      if (qty === 0) {
+        addToCart(product);
+        showToast("Added to cart");
+      }
 
-  if (qty === 0) {
-    addToCart(product);
-    alert("Added to cart");
-  }
+      if (e.target.classList.contains("increase")) increaseQty(product.id);
+      if (e.target.classList.contains("decrease")) decreaseQty(product.id);
 
-  if (e.target.classList.contains("increase")) {
-    increaseQty(product.id);
-  }
+      renderBtn();
+    };
 
-  if (e.target.classList.contains("decrease")) {
-    decreaseQty(product.id);
-  }
+    card.querySelector("img").onclick = () =>
+      window.location.href = `product.html?id=${product.id}`;
 
-  renderButton();
-});
+    card.querySelector("h3").onclick = () =>
+      window.location.href = `product.html?id=${product.id}`;
 
     container.appendChild(card);
   });
 }
 
-/* ===== INITIAL LOAD ===== */
 renderProducts(products);
 updateCartCount();
 
-/* ===== LIVE SEARCH ===== */
-searchInput.addEventListener("input", () => {
-  const q = searchInput.value.toLowerCase().trim();
+document.querySelectorAll(".faq-question").forEach(btn => {
+  btn.addEventListener("click", () => {
 
-  if (!q) {
-    renderProducts(products);
-    return;
-  }
+    const faq = btn.parentElement;
+    const answer = faq.querySelector(".faq-answer");
 
-  const filtered = products.filter(product =>
-    product.name.toLowerCase().includes(q)
-  );
+    if (faq.classList.contains("active")) {
+      faq.classList.remove("active");
+      answer.style.maxHeight = null;
+    } else {
+      faq.classList.add("active");
+      answer.style.maxHeight = answer.scrollHeight + "px";
+    }
 
-  renderProducts(filtered);
+  });
 });
-
-/* ===== SLIDER LOGIC ===== */
-const slides = document.querySelectorAll(".slide");
-const dots = document.querySelectorAll(".dot");
-let currentSlide = 0;
-
-function showSlide(index) {
-  slides.forEach(slide => slide.classList.remove("active"));
-  dots.forEach(dot => dot.classList.remove("active"));
-
-  slides[index].classList.add("active");
-  dots[index].classList.add("active");
-
-  currentSlide = index;
-}
-
-dots.forEach((dot, index) => {
-  dot.addEventListener("click", () => showSlide(index));
-});
-
-setInterval(() => {
-  if (slides.length === 0) return;
-  const next = (currentSlide + 1) % slides.length;
-  showSlide(next);
-}, 4500);
-

@@ -5,11 +5,16 @@
   <title>Product | Hridh</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
+
 <body>
+
+<div id="toast" class="toast"></div>
 
 <header class="header">
   <div class="header-inner">
-    <a href="index.html" class="logo"><img src="/images/black hridh_4-removebg-preview.png"></a>
+    <a href="index.html" class="logo">
+      <img src="/images/black hridh_4-removebg-preview.png">
+    </a>
     <nav class="nav">
       <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
     </nav>
@@ -17,7 +22,6 @@
 </header>
 
 <main class="pdp">
-
   <div class="pdp-gallery">
     <img id="main-image" src="" alt="Product image" />
     <div id="thumbs" class="pdp-thumbs"></div>
@@ -28,22 +32,18 @@
 
     <div class="pdp-pricing">
       <div class="deal-badge">Launch Offer</div>
-
       <div class="price-row">
         <span class="discount" id="product-discount"></span>
         <span class="final-price" id="product-price"></span>
       </div>
-
       <div class="mrp">
         M.R.P: <span id="product-mrp"></span>
       </div>
     </div>
 
     <p class="pdp-desc" id="product-desc"></p>
-
     <button id="add-to-cart-btn">Add to Cart</button>
   </div>
-
 </main>
 
 <footer class="footer">
@@ -56,93 +56,81 @@
 <script src="js/cart.js"></script>
 
 <script>
-  updateCartCount();
+updateCartCount();
 
-  const params = new URLSearchParams(window.location.search);
-  const id = Number(params.get("id"));
-  const product = products.find(p => p.id === id);
+const params = new URLSearchParams(window.location.search);
+const id = Number(params.get("id"));
+const product = products.find(p => p.id === id);
 
-  if (!product) {
-    document.querySelector(".pdp").innerHTML = "<p>Product not found</p>";
-  } else {
+if (!product) {
+  document.querySelector(".pdp").innerHTML = "<p>Product not found</p>";
+} else {
 
-    document.getElementById("product-name").innerText = product.name;
-    document.getElementById("product-desc").innerText = product.description;
+  document.getElementById("product-name").innerText = product.name;
+  document.getElementById("product-desc").innerText = product.description;
 
-    // ===== PRICE CALCULATION =====
-    const discount = Math.round(
-      ((product.originalPrice - product.price) / product.originalPrice) * 100
-    );
+  const discount = Math.round(
+    ((product.originalPrice - product.price) / product.originalPrice) * 100
+  );
 
-    document.getElementById("product-price").innerText = "₹" + product.price;
-    document.getElementById("product-mrp").innerText = "₹" + product.originalPrice;
-    document.getElementById("product-discount").innerText = "-" + discount + "%";
+  document.getElementById("product-price").innerText = "₹" + product.price;
+  document.getElementById("product-mrp").innerText = "₹" + product.originalPrice;
+  document.getElementById("product-discount").innerText = "-" + discount + "%";
 
-    // ===== IMAGE GALLERY =====
-    const mainImage = document.getElementById("main-image");
-    const thumbs = document.getElementById("thumbs");
+  const mainImage = document.getElementById("main-image");
+  const thumbs = document.getElementById("thumbs");
 
-    mainImage.src = product.images[0];
+  mainImage.src = product.images[0];
 
-    product.images.forEach(img => {
-      const thumb = document.createElement("img");
-      thumb.src = img;
-      thumb.addEventListener("click", () => {
-        mainImage.src = img;
-      });
-      thumbs.appendChild(thumb);
-    });
+  product.images.forEach(img => {
+    const thumb = document.createElement("img");
+    thumb.src = img;
+    thumb.onclick = () => mainImage.src = img;
+    thumbs.appendChild(thumb);
+  });
 
-    // ===== CART BUTTON =====
-    // ===== CART BUTTON =====
-const addBtn = document.getElementById("add-to-cart-btn");
+  const btn = document.getElementById("add-to-cart-btn");
 
-function getProductQty(id) {
-  const cart = getCart();
-  const item = cart.find(p => p.id === id);
-  return item ? item.qty : 0;
-}
+  function getQty() {
+    const cart = getCart();
+    const item = cart.find(p => p.id === product.id);
+    return item ? item.qty : 0;
+  }
 
-function renderButton() {
-  const qty = getProductQty(product.id);
+  function renderBtn() {
+  const qty = getQty();
 
   if (qty === 0) {
-    addBtn.innerText = "Add to Cart";
-    addBtn.classList.remove("qty-mode");
+    btn.innerText = "Add to Cart";
+    btn.classList.remove("qty-mode");
   } else {
-    addBtn.innerHTML = `
-      <span class="decrease">−</span>
+    btn.innerHTML = `
+      <span class="qty-btn decrease">−</span>
       <span class="quantity">${qty}</span>
-      <span class="increase">+</span>
+      <span class="qty-btn increase">+</span>
     `;
-    addBtn.classList.add("qty-mode");
+    btn.classList.add("qty-mode");
   }
 }
 
-// Initial render
-renderButton();
+  renderBtn();
 
-addBtn.addEventListener("click", function(e) {
+  btn.onclick = function(e) {
+    const qty = getQty();
 
-  const qty = getProductQty(product.id);
+    if (qty === 0) {
+      addToCart(product);
+      showToast("Added to cart");
+    }
 
-  if (qty === 0) {
-    addToCart(product);
-    alert("Added to cart");
-  }
+    if (e.target.classList.contains("increase")) increaseQty(product.id);
+    if (e.target.classList.contains("decrease")) decreaseQty(product.id);
 
-  if (e.target.classList.contains("increase")) {
-    increaseQty(product.id);
-  }
-
-  if (e.target.classList.contains("decrease")) {
-    decreaseQty(product.id);
-  }
-
-  renderButton();
-});
-  }
+    renderBtn();
+  };
+}
 </script>
 
+<script src="js/main.js"></script>
 </body>
 </html>
