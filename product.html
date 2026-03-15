@@ -39,8 +39,15 @@
       <div class="mrp">
         M.R.P: <span id="product-mrp"></span>
       </div>
+      <div class="pdp-trust">
+        <span>✓ Hand-painted original</span>
+        <span>✓ Only one piece available</span>
+        <span>✓ Free shipping across India</span>
+      </div>
     </div>
-
+    <h4 class="pdp-section">The Artwork</h4>
+    <p class="pdp-story" id="product-story"></p>
+    <h4 class="pdp-section">Product Details</h4>
     <p class="pdp-desc" id="product-desc"></p>
     <button id="add-to-cart-btn">Add to Cart</button>
   </div>
@@ -67,6 +74,7 @@ if (!product) {
 } else {
 
   document.getElementById("product-name").innerText = product.name;
+  document.getElementById("product-story").innerText = product.story;
   document.getElementById("product-desc").innerText = product.description;
 
   const discount = Math.round(

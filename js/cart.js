@@ -95,3 +95,20 @@ function renderCart() {
 
   totalDiv.innerText = "Total: ₹" + total;
 }
+
+const checkoutBtn = document.getElementById("checkout-btn");
+
+if (checkoutBtn) {
+  checkoutBtn.addEventListener("click", () => {
+
+    const cart = getCart();
+
+    if (cart.length === 0) {
+      alert("Your cart is empty");
+      return;
+    }
+
+    window.location.href = "checkout.html";
+
+  });
+}

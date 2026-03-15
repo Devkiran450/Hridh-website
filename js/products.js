@@ -5,6 +5,7 @@ const products = [
     code: "Code: Hridh-2601",
     price: 2999,
     originalPrice: 4999,
+    story:"Inspired by the fluid motion of water currents, this hand-painted design blends deep blues with warm yellow tones to create a striking whirlpool effect.",
     description:
       "• Dynamic blue & yellow whirlpool artwork\n• Size: 48cm x 218cm\n• Fabric: Soft cotton\n• Durable acrylic & pigment colors\n• Bold modern statement piece\n• Care: Cold wash separately, shade dry, iron on reverse only",
     images: [
@@ -20,6 +21,7 @@ const products = [
     code: "Code: Hridh-2602",
     price: 2999,
     originalPrice: 4999,
+    story:"Bold brush strokes flow across natural linen, creating a modern abstract composition that captures the spontaneity and energy of hand-painted art.",
     description:
       "• Contemporary brush stroke artwork\n• Size: 44cm x 210cm\n• Fabric: Linen flax\n• Premium natural texture\n• Long-lasting acrylic & pigment colors\n• Care: Cold wash separately, shade dry, iron on reverse only",
     images: [
@@ -35,6 +37,7 @@ const products = [
     code: "Code: Hridh-2603",
     price: 3999,
     originalPrice: 4999,
+    story:"A dramatic contrast of deep black and luminous gold leaf creates a refined artistic composition that brings a sense of elegance and modern luxury.",
     description:
       "• Black & gold leaf artistic design\n• Size: 46cm x 220cm\n• Fabric: Rayon & viscose blend\n• Smooth drape with premium finish\n• Durable acrylic & pigment colors\n• Care: Cold wash separately, shade dry, iron on reverse only",
     images: [
@@ -50,8 +53,9 @@ const products = [
     code: "Code: Hridh-2604",
     price: 3999,
     originalPrice: 4999,
+    story:"Hand-painted pink roses bloom against a rich black backdrop, blending classic floral beauty with a contemporary artistic expression.",
     description:
-      "Lightweight linen shirt ideal for warm weather and effortless styling.",
+      "Black pelican painting Size- 41cm x 222cm Fabric- Rayon and Viscose blend Fast acrylic/pigment fabric colour Care instruction : Cold wash, shade dry and light iron from the back side of painting.",
     images: [
       "images/product4_4.jpeg",
       "images/product4_1.jpeg",
@@ -65,6 +69,7 @@ const products = [
     code: "Code: Hridh-2605",
     price: 3999,
     originalPrice: 4999,
+    story:"Inspired by the rhythm and form of a guitar, this artistic design transforms musical expression into a vibrant hand-painted textile composition.",
     description:
       "• Guitar-themed artistic design\n• Size: 47cm x 216cm\n• Fabric: Linen flax\n• Natural woven texture\n• Durable acrylic & pigment fabric colors\n• Care: Cold wash separately, shade dry, iron on reverse only",
     images: [
@@ -80,6 +85,7 @@ const products = [
     code: "Code: Hridh-2606",
     price: 3999,
     originalPrice: 4999,
+    story:"A minimalist pelican silhouette emerges from bold black strokes, creating a striking wildlife-inspired design with modern artistic simplicity.",
     description:
       "• Minimalist black pelican design\n• Size: 41cm x 222cm\n• Fabric: Rayon & viscose blend\n• Durable acrylic & pigment fabric colors\n• Modern artistic appeal\n• Care: Cold wash separately, shade dry, iron on reverse only",
     images: [
@@ -95,6 +101,7 @@ const products = [
     code: "Code: Hridh-2607",
     price: 2999,
     originalPrice: 4999,
+    story:"Vibrant yellow and pink tones form playful bubble-like patterns, creating a lively abstract composition full of color and movement.",
     description:
       "• Vibrant yellow & pink bubble design\n• Size: 47cm x 214cm\n• Fabric: Soft cotton\n• Fast acrylic & pigment fabric colors\n• Contemporary abstract styling\n• Care: Cold wash separately, shade dry, iron on reverse only",
     images: [
@@ -110,6 +117,7 @@ const products = [
     code: "Code: Hridh-2608",
     price: 3999,
     originalPrice: 4999,
+    story:"A charming yellow house motif brings warmth and character to this hand-painted design, blending architectural inspiration with textile artistry.",
     description:
       "• Hand-painted yellow house artwork\n• Size: 53cm x 220cm\n• Fabric: Soft cotton / muslin\n• Fast acrylic & pigment fabric colors\n• Suitable for wall decor or textile styling\n• Care: Cold wash separately, shade dry, iron on reverse only",
     images: [
@@ -125,6 +133,7 @@ const products = [
     code: "Code: Hridh-2609",
     price: 3999,
     originalPrice: 4999,
+    story:"Inspired by the bold silhouette of a castle, this dramatic design creates a powerful statement through strong forms and striking contrasts.",
     description:
       "• Bold black castle-inspired design\n• Size: 54cm x 220cm\n• Fabric: Soft cotton\n• Durable acrylic & pigment colors\n• Modern artistic styling\n• Care: Cold wash separately, shade dry, iron on reverse only",
     images: [
@@ -140,6 +149,7 @@ const products = [
     code: "Code: Hridh-2610",
     price: 2999,
     originalPrice: 4999,
+    story:"Rich tomato red tones meet deep black botanical leaves, creating a nature-inspired design that balances bold color with organic elegance.",
     description:
       "• Tomato red & black leaf botanical design\n• Size: 50cm x 216cm\n• Fabric: Soft cotton\n• Fast acrylic & pigment fabric colors\n• Elegant nature-inspired styling\n• Care: Cold wash separately, shade dry, iron on reverse only",
     images: [
