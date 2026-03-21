@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Product | Hridh</title>
-  <link rel="stylesheet" href="css/style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product | Hridh</title>
+<link rel="stylesheet" href="css/style.css" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -11,134 +13,273 @@
 <div id="toast" class="toast"></div>
 
 <header class="header">
-  <div class="header-inner">
-    <a href="index.html" class="logo">
-      <img src="/images/black hridh_4-removebg-preview.png">
-    </a>
-    <nav class="nav">
-      <a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
-    </nav>
-  </div>
+<div class="header-inner">
+<a href="index.html" class="logo">
+<img src="/images/black hridh_4-removebg-preview.png">
+</a>
+
+<nav class="nav">
+<a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
+</nav>
+</div>
 </header>
 
+
 <main class="pdp">
-  <div class="pdp-gallery">
-    <img id="main-image" src="" alt="Product image" />
-    <div id="thumbs" class="pdp-thumbs"></div>
-  </div>
 
-  <div class="pdp-info">
-    <h2 id="product-name"></h2>
+<div class="pdp-gallery">
 
-    <div class="pdp-pricing">
-      <div class="deal-badge">Launch Offer</div>
-      <div class="price-row">
-        <span class="discount" id="product-discount"></span>
-        <span class="final-price" id="product-price"></span>
-      </div>
-      <div class="mrp">
-        M.R.P: <span id="product-mrp"></span>
-      </div>
-      <div class="pdp-trust">
-        <span>✓ Hand-painted original</span>
-        <span>✓ Only one piece available</span>
-        <span>✓ Free shipping across India</span>
-      </div>
-    </div>
-    <h4 class="pdp-section">The Artwork</h4>
-    <p class="pdp-story" id="product-story"></p>
-    <h4 class="pdp-section">Product Details</h4>
-    <p class="pdp-desc" id="product-desc"></p>
-    <button id="add-to-cart-btn">Add to Cart</button>
-  </div>
+<div class="image-stage">
+
+<img id="main-image" src="" alt="Product image">
+
+</div>
+
+<div id="thumbs" class="pdp-thumbs"></div>
+
+</div>
+
+
+<div class="pdp-info">
+
+<h2 id="product-name"></h2>
+
+<div class="pdp-pricing">
+
+<div class="deal-badge">Launch Offer</div>
+
+<div class="price-row">
+<span class="discount" id="product-discount"></span>
+<span class="final-price" id="product-price"></span>
+</div>
+
+<div class="mrp">
+M.R.P: <span id="product-mrp"></span>
+</div>
+
+
+<div class="pdp-trust">
+<span>✓ Hand-painted original</span>
+<span>✓ Only one piece exists</span>
+<span>✓ Certificate of authenticity included</span>
+<span>✓ Free shipping across India</span>
+</div>
+
+</div>
+
+
+<!-- Artwork identity -->
+
+<div class="artwork-meta">
+<p><strong>Artwork ID:</strong> <span id="product-artid">—</span></p>
+<p><strong>Year:</strong> <span id="product-year">—</span></p>
+<p><strong>Edition:</strong> <span id="product-edition">—</span></p>
+</div>
+
+
+<h4 class="pdp-section">The Artwork</h4>
+<p class="pdp-story" id="product-story"></p>
+
+<h4 class="pdp-section">Product Details</h4>
+<p class="pdp-desc" id="product-desc"></p>
+
+<button id="add-to-cart-btn">Add to Cart</button>
+
+</div>
+
 </main>
 
+
 <footer class="footer">
-  <div class="footer-inner">
-    <p>© 2026 HRIDH</p>
-  </div>
+<div class="footer-inner">
+<p>© 2026 HRIDH</p>
+</div>
 </footer>
+
 
 <script src="js/products.js"></script>
 <script src="js/cart.js"></script>
 
 <script>
+
+async function loadSoldProducts(){
+
+  try{
+
+    const res = await fetch("http://localhost:5000/api/products/sold-products");
+    const soldIds = await res.json();
+
+    return soldIds;
+
+  }catch(err){
+    console.log("Sold fetch error", err);
+    return [];
+  }
+
+}
+
+
+
+(async function(){
+
 updateCartCount();
 
 const params = new URLSearchParams(window.location.search);
 const id = Number(params.get("id"));
-const product = products.find(p => p.id === id);
 
+const soldIds = await loadSoldProducts();
+
+const normalizedSoldIds = soldIds.map(Number);
+
+const product = products.find(p => p.id === id);
+if(normalizedSoldIds.includes(product.id))
+{
+    product.sold = true;
+}
+
+
+
+console.log("Sold ids:", soldIds);
+console.log("Product Ids:", product.id);
 if (!product) {
   document.querySelector(".pdp").innerHTML = "<p>Product not found</p>";
-} else {
-
-  document.getElementById("product-name").innerText = product.name;
-  document.getElementById("product-story").innerText = product.story;
-  document.getElementById("product-desc").innerText = product.description;
-
-  const discount = Math.round(
-    ((product.originalPrice - product.price) / product.originalPrice) * 100
-  );
-
-  document.getElementById("product-price").innerText = "₹" + product.price;
-  document.getElementById("product-mrp").innerText = "₹" + product.originalPrice;
-  document.getElementById("product-discount").innerText = "-" + discount + "%";
-
-  const mainImage = document.getElementById("main-image");
-  const thumbs = document.getElementById("thumbs");
-
-  mainImage.src = product.images[0];
-
-  product.images.forEach(img => {
-    const thumb = document.createElement("img");
-    thumb.src = img;
-    thumb.onclick = () => mainImage.src = img;
-    thumbs.appendChild(thumb);
-  });
-
-  const btn = document.getElementById("add-to-cart-btn");
-
-  function getQty() {
-    const cart = getCart();
-    const item = cart.find(p => p.id === product.id);
-    return item ? item.qty : 0;
-  }
-
-  function renderBtn() {
-  const qty = getQty();
-
-  if (qty === 0) {
-    btn.innerText = "Add to Cart";
-    btn.classList.remove("qty-mode");
-  } else {
-    btn.innerHTML = `
-      <span class="qty-btn decrease">−</span>
-      <span class="quantity">${qty}</span>
-      <span class="qty-btn increase">+</span>
-    `;
-    btn.classList.add("qty-mode");
-  }
+  return;
 }
 
+// 🔥 SET SOLD STATE
+if(soldIds.includes(product.id)){
+  product.sold = true;
+}
+
+// SET DATA
+document.getElementById("product-name").innerText = product.name;
+document.getElementById("product-story").innerText = product.story;
+document.getElementById("product-desc").innerText = product.description;
+
+document.getElementById("product-artid").innerText =
+  product.productId || product.code || "—";
+
+document.getElementById("product-year").innerText =
+  product.year || "2026";
+
+document.getElementById("product-edition").innerText =
+  product.edition || "1 of 1";
+
+/* PRICE */
+
+document.getElementById("product-price").innerText =
+"₹" + product.price;
+
+document.getElementById("product-mrp").innerText =
+"₹" + product.originalPrice;
+
+if(product.originalPrice){
+
+const discount = Math.round(
+100 - (product.price/product.originalPrice)*100
+);
+
+document.getElementById("product-discount").innerText =
+"-" + discount + "%";
+
+}
+
+// IMAGES
+const mainImage = document.getElementById("main-image");
+const thumbs = document.getElementById("thumbs");
+
+mainImage.src = product.images[0];
+
+let currentIndex = 0;
+
+product.images.forEach((img, index) => {
+
+const thumb = document.createElement("img");
+
+thumb.src = img;
+
+if(index === 0) thumb.classList.add("active");
+
+thumb.onclick = () => {
+
+const direction = index > currentIndex ? "right" : "left";
+
+animateImageChange(img, direction);
+
+document.querySelectorAll(".pdp-thumbs img")
+.forEach(t => t.classList.remove("active"));
+
+thumb.classList.add("active");
+
+currentIndex = index;
+
+};
+
+thumbs.appendChild(thumb);
+
+});
+
+function animateImageChange(newSrc, direction){
+
+mainImage.classList.remove("slide-left","slide-right");
+
+void mainImage.offsetWidth;
+
+mainImage.classList.add(
+direction === "right" ? "slide-left" : "slide-right"
+);
+
+setTimeout(()=>{
+
+mainImage.src = newSrc;
+
+mainImage.classList.remove("slide-left","slide-right");
+
+},180);
+
+}
+
+// BUTTON LOGIC
+const btn = document.getElementById("add-to-cart-btn");
+
+function renderBtn(){
+
+  if(product.sold){
+    btn.innerText = "SOLD";
+    btn.disabled = true;
+    btn.style.cursor = "not-allowed";
+    return;
+  }
+
+  const cart = getCart();
+  const exists = cart.find(p => p.id === product.id);
+
+  if(exists){
+    btn.innerText = "In Cart";
+    btn.disabled = true;
+  }else{
+    btn.innerText = "Add to Cart";
+  }
+
+}
+
+renderBtn();
+
+btn.onclick = function(){
+
+  if(product.sold) return;
+
+  addToCart(product);
+  showToast("Added to cart");
   renderBtn();
 
-  btn.onclick = function(e) {
-    const qty = getQty();
+};
 
-    if (qty === 0) {
-      addToCart(product);
-      showToast("Added to cart");
-    }
+})();
 
-    if (e.target.classList.contains("increase")) increaseQty(product.id);
-    if (e.target.classList.contains("decrease")) decreaseQty(product.id);
-
-    renderBtn();
-  };
-}
 </script>
 
 <script src="js/main.js"></script>
+<div class="menu-overlay" id="menu-overlay"></div>
 </body>
 </html>

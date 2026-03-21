@@ -1,104 +1,414 @@
+document.addEventListener("DOMContentLoaded", function () {
+
 const container = document.getElementById("products");
 const searchInput = document.getElementById("nav-search-input");
 
-function showToast(message) {
-  const toast = document.getElementById("toast");
-  if (!toast) return;
-  toast.innerText = message;
-  toast.classList.add("show");
-  setTimeout(() => toast.classList.remove("show"), 2000);
+
+function showToast(message){
+
+const toast = document.getElementById("toast");
+
+if(!toast) return;
+
+toast.innerText = message;
+
+toast.classList.add("show");
+
+setTimeout(()=>{
+toast.classList.remove("show");
+},2000);
+
 }
 
-function renderProducts(list) {
-  container.innerHTML = "";
 
-  list.forEach(product => {
 
-    const card = document.createElement("div");
-    card.className = "product-card";
+function renderProducts(list){
 
-    card.innerHTML = `
-      <img src="${product.images[0]}" />
-      <div class="product-card-content">
-        <h3>${product.name}</h3>
-        <p class="product-code">${product.code}</p>
-        <div class="deal-badge">Launch Offer</div>
-        <div class="price-row">
-  <span class="discount">-${Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%</span>
-  <span class="final-price">₹${product.price}</span>
-  <span class="mrp">₹${product.originalPrice}</span>
+if(!container) return;
+
+container.innerHTML="";
+
+list.forEach(product=>{
+
+const card=document.createElement("div");
+
+card.className="product-card";
+
+card.innerHTML=`
+
+<div class="product-image">
+
+${product.sold ? `<div class="sold-badge">SOLD</div>` : ""}
+
+<img src="${product.images[0]}">
+
 </div>
-        <button>Add to Cart</button>
-      </div>
-    `;
 
-    const btn = card.querySelector("button");
 
-    function getQty() {
-      const cart = getCart();
-      const item = cart.find(p => p.id === product.id);
-      return item ? item.qty : 0;
-    }
+<div class="product-card-content">
 
-    function renderBtn() {
-  const qty = getQty();
+<h3>${product.name}</h3>
 
-  if (qty === 0) {
-    btn.innerText = "Add to Cart";
-    btn.classList.remove("qty-mode");
-  } else {
-    btn.innerHTML = `
-      <span class="qty-btn decrease">−</span>
-      <span class="quantity">${qty}</span>
-      <span class="qty-btn increase">+</span>
-    `;
-    btn.classList.add("qty-mode");
-  }
+<p class="product-code">
+${product.productId || product.code}
+</p>
+
+<div class="deal-badge">
+Launch Offer
+</div>
+
+
+<div class="price-row">
+
+<span class="discount">
+-${Math.round(((product.originalPrice-product.price)/product.originalPrice)*100)}%
+</span>
+
+<span class="final-price">
+₹${product.price}
+</span>
+
+<span class="mrp">
+₹${product.originalPrice}
+</span>
+
+</div>
+
+
+<button class="cart-btn"></button>
+
+</div>
+
+`;
+
+
+const btn=card.querySelector(".cart-btn");
+
+
+
+function getQty(){
+
+const cart=getCart();
+
+const item=cart.find(p=>p.id===product.id);
+
+return item ? item.qty : 0;
+
 }
 
-    renderBtn();
 
-    btn.onclick = function(e) {
-      e.stopPropagation();
-      const qty = getQty();
 
-      if (qty === 0) {
-        addToCart(product);
-        showToast("Added to cart");
-      }
+function renderBtn(){
 
-      if (e.target.classList.contains("increase")) increaseQty(product.id);
-      if (e.target.classList.contains("decrease")) decreaseQty(product.id);
+if(product.sold){
 
-      renderBtn();
-    };
+card.classList.add("sold-item");
 
-    card.querySelector("img").onclick = () =>
-      window.location.href = `product.html?id=${product.id}`;
+/* hide button for sold product */
 
-    card.querySelector("h3").onclick = () =>
-      window.location.href = `product.html?id=${product.id}`;
+btn.style.display="none";
 
-    container.appendChild(card);
-  });
+return;
+
 }
 
-renderProducts(products);
+
+
+const qty=getQty();
+
+
+
+if(qty===0){
+
+btn.innerText="Add to Cart";
+
+btn.classList.remove("qty-mode");
+
+}
+
+else{
+
+btn.innerHTML=`
+
+<span class="qty-btn decrease">−</span>
+
+<span class="quantity">${qty}</span>
+
+<span class="qty-btn increase">+</span>
+
+`;
+
+btn.classList.add("qty-mode");
+
+}
+
+}
+
+
+
+renderBtn();
+
+
+
+btn.addEventListener("click",function(e){
+
+e.preventDefault();
+
+e.stopPropagation();
+
+
+
+if(product.sold) return;
+
+
+
+const target=e.target;
+
+const qty=getQty();
+
+
+
+if(qty===0 && !target.classList.contains("qty-btn")){
+
+addToCart(product);
+
+showToast("Added to cart");
+
+}
+
+
+
+if(target.classList.contains("increase")){
+
+showToast("Only one piece available");
+
+}
+
+
+
+if(target.classList.contains("decrease")){
+
+decreaseQty(product.id);
+
+}
+
+
+
+renderBtn();
+
 updateCartCount();
 
-document.querySelectorAll(".faq-question").forEach(btn => {
-  btn.addEventListener("click", () => {
-
-    const faq = btn.parentElement;
-    const answer = faq.querySelector(".faq-answer");
-
-    if (faq.classList.contains("active")) {
-      faq.classList.remove("active");
-      answer.style.maxHeight = null;
-    } else {
-      faq.classList.add("active");
-      answer.style.maxHeight = answer.scrollHeight + "px";
-    }
-
-  });
 });
+
+
+
+const img=card.querySelector("img");
+
+const title=card.querySelector("h3");
+
+
+
+img.addEventListener("click",()=>{
+
+window.location.href=`product.html?id=${product.id}`;
+
+});
+
+
+title.addEventListener("click",()=>{
+
+window.location.href=`product.html?id=${product.id}`;
+
+});
+
+
+
+container.appendChild(card);
+
+});
+
+}
+
+
+
+/* LOAD SOLD PRODUCTS */
+
+async function loadSoldProducts(){
+
+try{
+
+const res=await fetch("http://localhost:5000/api/products/sold-products");
+
+const soldIds=await res.json();
+
+localStorage.setItem("soldProducts",JSON.stringify(soldIds));
+
+products.forEach(p=>{
+
+if(soldIds.includes(p.id)){
+
+p.sold=true;
+
+}
+
+});
+
+}
+
+catch(err){
+
+const cached=JSON.parse(localStorage.getItem("soldProducts")) || [];
+
+products.forEach(p=>{
+
+if(cached.includes(p.id)){
+
+p.sold=true;
+
+}
+
+});
+
+}
+
+}
+
+
+
+/* INIT */
+
+async function init(){
+
+await loadSoldProducts();
+
+renderProducts(products);
+
+updateCartCount();
+
+}
+
+init();
+
+
+
+/* SEARCH */
+
+if(searchInput){
+
+searchInput.addEventListener("input",function(){
+
+const term=this.value.toLowerCase();
+
+const filtered=products.filter(p=>
+
+p.name.toLowerCase().includes(term)
+
+||
+
+(p.productId && p.productId.toLowerCase().includes(term))
+
+);
+
+renderProducts(filtered);
+
+});
+
+}
+
+
+
+/* FAQ */
+
+document.querySelectorAll(".faq-question").forEach(btn=>{
+
+btn.addEventListener("click",()=>{
+
+const faq=btn.parentElement;
+
+const answer=faq.querySelector(".faq-answer");
+
+
+
+if(faq.classList.contains("active")){
+
+faq.classList.remove("active");
+
+answer.style.maxHeight=null;
+
+}
+
+else{
+
+faq.classList.add("active");
+
+answer.style.maxHeight=answer.scrollHeight+"px";
+
+}
+
+});
+
+});
+
+
+
+/* HERO SLIDER */
+
+const slides=document.querySelectorAll(".slide");
+
+let index=0;
+
+function showSlide(){
+
+slides.forEach(s=>s.classList.remove("active"));
+
+slides[index].classList.add("active");
+
+index++;
+
+if(index>=slides.length){
+
+index=0;
+
+}
+
+}
+
+setInterval(showSlide,4000);
+
+});
+
+/* MOBILE MENU SAFE */
+
+const toggleBtn = document.getElementById("menu-toggle");
+
+const navMenu = document.getElementById("nav-menu");
+
+const overlay = document.getElementById("menu-overlay");
+
+
+if(toggleBtn && navMenu && overlay){
+
+toggleBtn.addEventListener("click",()=>{
+
+navMenu.classList.toggle("active");
+
+overlay.classList.toggle("active");
+
+/* animate icon */
+
+toggleBtn.classList.toggle("active");
+
+});
+
+
+overlay.addEventListener("click",()=>{
+
+navMenu.classList.remove("active");
+
+overlay.classList.remove("active");
+
+toggleBtn.classList.remove("active");
+
+});
+
+}

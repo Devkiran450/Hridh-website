@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Order Successful</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -11,5 +13,23 @@
 
 <a href="index.html">Continue Shopping</a>
 
+<script>
+
+const lastOrder = JSON.parse(localStorage.getItem("lastOrder"));
+
+if(lastOrder){
+
+fetch("http://localhost:5000/api/products/sold-products")
+.then(res=>res.json())
+.then(data=>{
+
+localStorage.setItem("soldProducts", JSON.stringify(data));
+
+});
+
+}
+
+</script>
+<div class="menu-overlay" id="menu-overlay"></div>
 </body>
 </html>

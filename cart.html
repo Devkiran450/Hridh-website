@@ -1,41 +1,407 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <title>Your Cart | Hridh</title>
-  <link rel="stylesheet" href="css/style.css" />
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Your Cart | HRIDH</title>
+
+<link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+PREMIUM CART LAYOUT
+========================================================= */
+
+.cart-main{
+
+max-width:1100px;
+
+margin:60px auto;
+
+padding:0 40px;
+
+}
+
+/* TITLE */
+
+.cart-title{
+
+font-size:26px;
+
+font-weight:500;
+
+margin-bottom:30px;
+
+}
+
+/* ITEM CARD */
+
+.cart-item{
+
+display:flex;
+
+gap:22px;
+
+background:white;
+
+padding:20px;
+
+border-radius:16px;
+
+margin-bottom:18px;
+
+box-shadow:0 8px 24px rgba(0,0,0,0.05);
+
+align-items:center;
+
+}
+
+/* IMAGE */
+
+.cart-item img{
+
+width:120px;
+
+height:160px;
+
+object-fit:cover;
+
+border-radius:12px;
+
+}
+
+/* TEXT */
+
+.cart-item h3{
+
+font-size:16px;
+
+font-weight:500;
+
+margin-bottom:6px;
+
+}
+
+.cart-item p{
+
+font-size:14px;
+
+color:var(--muted);
+
+}
+
+/* PRICE */
+
+.cart-price{
+
+font-size:16px;
+
+font-weight:500;
+
+margin-top:6px;
+
+}
+
+/* REMOVE BUTTON */
+
+.remove-btn{
+
+margin-top:8px;
+
+background:none;
+
+border:none;
+
+color:#888;
+
+font-size:13px;
+
+cursor:pointer;
+
+}
+
+.remove-btn:hover{
+
+color:#000;
+
+}
+
+/* TOTAL SECTION */
+
+.cart-summary{
+
+margin-top:40px;
+
+padding:26px;
+
+background:white;
+
+border-radius:16px;
+
+box-shadow:0 8px 24px rgba(0,0,0,0.05);
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+flex-wrap:wrap;
+
+gap:20px;
+
+}
+
+/* TOTAL TEXT */
+
+.cart-total{
+
+font-size:20px;
+
+font-weight:500;
+
+}
+
+/* BUTTON */
+
+.checkout-btn{
+
+padding:16px 34px;
+
+background:#111;
+
+color:white;
+
+border:none;
+
+border-radius:12px;
+
+font-size:15px;
+
+cursor:pointer;
+
+transition:.2s;
+
+}
+
+.checkout-btn:hover{
+
+background:#000;
+
+transform:translateY(-1px);
+
+}
+
+/* TRUST */
+
+.cart-trust{
+
+margin-top:10px;
+
+font-size:13px;
+
+color:var(--muted);
+
+}
+
+/* EMPTY STATE */
+
+.empty-cart{
+
+text-align:center;
+
+margin:100px 0;
+
+color:var(--muted);
+
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.cart-main{
+
+padding:0 16px;
+
+}
+
+.cart-item{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+}
+
+.cart-item img{
+
+width:100%;
+
+height:auto;
+
+max-height:260px;
+
+object-fit:contain;
+
+}
+
+.cart-summary{
+
+flex-direction:column;
+
+align-items:flex-start;
+
+}
+
+.checkout-btn{
+
+width:100%;
+
+text-align:center;
+
+}
+
+}
+
+</style>
+
 </head>
+
+
+
 <body>
 
+
+
 <header class="header">
-  <div class="header-inner">
-    <a href="index.html" class="logo"><img src="/images/black hridh_4-removebg-preview.png"></a>
-    <nav class="nav">
-      <a href="index.html">Shop</a>
-    </nav>
-  </div>
+
+<div class="header-inner">
+
+<a href="index.html" class="logo">
+
+<img src="/images/black hridh_4-removebg-preview.png">
+
+</a>
+
+
+
+<nav class="nav">
+
+<a href="index.html">Shop</a>
+
+</nav>
+
+
+
+</div>
+
 </header>
 
-<main class="cart-main">
-  <h2>Your Cart</h2>
-  <div id="cart-items"></div>
-  <h3 id="total"></h3>
 
-<div class="cart-actions">
-  <button id="checkout-btn">Proceed to Checkout</button>
+
+<main class="cart-main">
+
+
+
+<h2 class="cart-title">Your Cart</h2>
+
+
+
+<div id="cart-items"></div>
+
+
+
+<div class="cart-summary">
+
+<div>
+
+<div class="cart-total" id="total">₹0</div>
+
+<div class="cart-trust">
+
+Includes certificate of authenticity
+
 </div>
+
+</div>
+
+
+
+<button id="checkout-btn" class="checkout-btn">
+
+Proceed to Checkout
+
+</button>
+
+
+
+</div>
+
+
+
 </main>
 
+
+
 <footer class="footer">
-  <div class="footer-inner">
-    <p>Need help? support@hridh.com</p>
-  </div>
+
+<div class="footer-inner">
+
+<p>support@hridh.com</p>
+
+</div>
+
 </footer>
 
+
+
 <script src="js/cart.js"></script>
+
+
+
 <script>
-  renderCart();
+
+renderCart();
+
+updateCartCount();
+
+
+
+const cart = getCart();
+
+
+
+if(cart.length === 0){
+
+document.getElementById("cart-items").innerHTML = `
+
+<div class="empty-cart">
+
+<p>Your cart is empty</p>
+
+<br>
+
+<a href="index.html">Continue shopping</a>
+
+</div>
+
+`;
+
+}
+
+
+
 </script>
 
+
+<div class="menu-overlay" id="menu-overlay"></div>
 </body>
+
 </html>

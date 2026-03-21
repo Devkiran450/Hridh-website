@@ -1,13 +1,24 @@
 const razorpay = require("../services/razorpayService");
 const crypto = require("crypto");
 const Order = require("../models/Order");
-
+const generateCertificate = require("../services/certificateService");
 
 exports.createRazorpayOrder = async (req, res) => {
 
   try {
 
-    const { amount } = req.body;
+    const { amount, productId } = req.body;
+
+    const alreadySold = await Order.findOne({
+      items: productId
+    });
+
+    if (alreadySold) {
+      return res.status(400).json({
+        success: false,
+        message: "Artwork already sold"
+      });
+    }
 
     const options = {
       amount: amount * 100,
@@ -84,9 +95,8 @@ exports.verifyPayment = async (req, res) => {
     const productId = orderData.items[0];
 
     const alreadySold = await Order.findOne({
-      items: productId
+    items: { $in: orderData.items }
     });
-
     if (alreadySold) {
 
       return res.status(400).json({
@@ -105,6 +115,7 @@ exports.verifyPayment = async (req, res) => {
 
     await newOrder.save();
 
+    generateCertificate(newOrder);
 
     res.json({
       success: true,

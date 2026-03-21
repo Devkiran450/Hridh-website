@@ -1,26 +1,330 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<title>Checkout | Hridh</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Checkout | HRIDH</title>
+
 <link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+CHECKOUT PREMIUM LAYOUT
+========================================================= */
+
+.checkout-container{
+max-width:1100px;
+margin:60px auto;
+padding:0 40px;
+display:grid;
+grid-template-columns:1.2fr .8fr;
+gap:60px;
+}
+
+/* LEFT FORM */
+
+.checkout-form{
+background:white;
+padding:40px;
+border-radius:18px;
+box-shadow:0 10px 30px rgba(0,0,0,0.05);
+}
+
+.checkout-title{
+font-size:26px;
+font-weight:500;
+margin-bottom:30px;
+}
+
+.checkout-group{
+margin-bottom:22px;
+display:flex;
+flex-direction:column;
+gap:6px;
+}
+
+.checkout-group label{
+font-size:13px;
+color:var(--muted);
+}
+
+.checkout-group input,
+.checkout-group textarea{
+padding:14px 14px;
+border-radius:10px;
+border:1px solid var(--border);
+font-size:14px;
+background:#fff;
+transition:.2s;
+}
+
+.checkout-group input:focus,
+.checkout-group textarea:focus{
+border-color:#000;
+outline:none;
+}
+
+/* RIGHT SUMMARY */
+
+.order-summary{
+background:white;
+padding:32px;
+border-radius:18px;
+box-shadow:0 10px 30px rgba(0,0,0,0.05);
+height:fit-content;
+position:sticky;
+top:100px;
+}
+
+.summary-title{
+font-size:20px;
+font-weight:500;
+margin-bottom:20px;
+}
+
+.summary-item{
+display:flex;
+gap:14px;
+margin-bottom:18px;
+align-items:center;
+}
+
+.summary-item img{
+width:70px;
+height:90px;
+object-fit:cover;
+border-radius:8px;
+}
+
+.summary-item-name{
+font-size:14px;
+}
+
+.summary-item-price{
+font-size:14px;
+color:var(--muted);
+}
+
+.summary-divider{
+border-top:1px solid var(--border);
+margin:20px 0;
+}
+
+.summary-total{
+display:flex;
+justify-content:space-between;
+font-size:18px;
+font-weight:500;
+margin-bottom:20px;
+}
+
+.checkout-btn{
+width:100%;
+padding:16px;
+border-radius:12px;
+border:none;
+background:#111;
+color:white;
+font-size:15px;
+cursor:pointer;
+transition:.2s;
+}
+
+.checkout-btn:hover{
+background:#000;
+transform:translateY(-1px);
+}
+
+/* TRUST STRIP */
+
+.checkout-trust{
+margin-top:20px;
+font-size:13px;
+color:var(--muted);
+display:flex;
+flex-direction:column;
+gap:4px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+.checkout-container{
+grid-template-columns:1fr;
+gap:30px;
+padding:0 16px;
+}
+
+.order-summary{
+position:static;
+}
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
-<h2>Checkout</h2>
+<header class="header">
+
+<div class="header-inner">
+
+<a href="index.html" class="logo">
+<img src="/images/black hridh_4-removebg-preview.png">
+</a>
+
+<nav class="nav">
+<a href="cart.html">Cart</a>
+</nav>
+
+</div>
+
+</header>
+
+
+
+<main class="checkout-container">
+
+
+<!-- FORM -->
+
+<div class="checkout-form">
+
+<h2 class="checkout-title">Shipping Details</h2>
 
 <form id="checkout-form">
 
-<input type="text" id="name" placeholder="Full Name" required>
-<input type="text" id="phone" placeholder="Phone Number" required>
-<textarea id="address" placeholder="Delivery Address" required></textarea>
+<div class="checkout-group">
+<label>Full Name</label>
+<input type="text" id="name" required>
+</div>
 
-<button type="submit">Pay Now</button>
+<div class="checkout-group">
+<label>Phone Number</label>
+<input type="tel" id="phone" required>
+</div>
+
+<div class="checkout-group">
+<label>Address</label>
+<textarea id="address" rows="3" required></textarea>
+</div>
+
+<div class="checkout-group">
+<label>City</label>
+<input type="text" id="city" required>
+</div>
+
+<div class="checkout-group">
+<label>Pincode</label>
+<input type="text" id="pincode" required>
+</div>
 
 </form>
 
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</div>
+
+
+
+<!-- SUMMARY -->
+
+<div class="order-summary">
+
+<h3 class="summary-title">Order Summary</h3>
+
+<div id="summary-items"></div>
+
+<div class="summary-divider"></div>
+
+<div class="summary-total">
+<span>Total</span>
+<span id="summary-total">₹0</span>
+</div>
+
+<button class="checkout-btn" id="pay-btn">
+Proceed to Payment
+</button>
+
+
+<div class="checkout-trust">
+
+<span>✓ Secure Razorpay payment</span>
+<span>✓ Certificate of authenticity included</span>
+<span>✓ Carefully packaged artwork</span>
+<span>✓ One-of-one original piece</span>
+
+</div>
+
+</div>
+
+
+</main>
+
+
+
+<footer class="footer">
+
+<div class="footer-inner">
+
+<p>© 2026 HRIDH</p>
+
+</div>
+
+</footer>
+
+
+
+<script src="js/cart.js"></script>
 <script src="js/checkout.js"></script>
 
+
+<script>
+
+/* render order summary */
+
+const cart = getCart();
+
+const container = document.getElementById("summary-items");
+
+let total = 0;
+
+cart.forEach(item => {
+
+total += item.price;
+
+const div = document.createElement("div");
+
+div.className = "summary-item";
+
+div.innerHTML = `
+<img src="${item.images[0]}">
+
+<div>
+
+<div class="summary-item-name">${item.name}</div>
+
+<div class="summary-item-price">₹${item.price}</div>
+
+</div>
+`;
+
+container.appendChild(div);
+
+});
+
+document.getElementById("summary-total").innerText = "₹" + total;
+
+</script>
+
+<div class="menu-overlay" id="menu-overlay"></div>
 </body>
+
 </html>

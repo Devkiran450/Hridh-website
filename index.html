@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <title>Hridh | Contemporary Fashion</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/style.css" />
   <link rel="icon" type="image/png" href="/images/favicon_4.png">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -12,34 +14,258 @@
 <div id="toast" class="toast"></div>
 
 <header class="header">
-  <div class="header-inner">
-    <a href="index.html" class="logo">
-      <img src="/images/black hridh_4-removebg-preview.png">
-    </a>
 
-    <div class="nav-search">
-      <input type="text" id="nav-search-input" placeholder="Search for products"/>
-      <button id="nav-search-btn" aria-label="Search">🔍</button>
-    </div>
+<div class="header-inner">
 
-    <nav class="nav">
-      <a href="#faq">FAQ</a>
-      <a href="/cart.html">Cart (<span id="cart-count">0</span>)</a>
-    </nav>
-  </div>
+<a href="index.html" class="logo">
+<img src="/images/black hridh_4-removebg-preview.png">
+</a>
+
+
+<div class="nav-search">
+
+<input 
+type="text" 
+id="nav-search-input" 
+placeholder="Search artworks"
+/>
+
+<button id="nav-search-btn">
+🔍
+</button>
+
+</div>
+
+
+<button class="menu-toggle" id="menu-toggle">
+
+<span></span>
+<span></span>
+<span></span>
+
+</button>
+
+
+<nav class="nav" id="nav-menu">
+
+<a href="#why-hridh">Why HRIDH</a>
+
+<a href="#about-hridh">About</a>
+
+<a href="#faq">FAQ</a>
+
+<a href="cart.html">
+
+Cart (<span id="cart-count">0</span>)
+
+</a>
+
+</nav>
+
+
+</div>
+
 </header>
 
 <main>
 
-<section class="hero">
-  <h2>"Hand-Painted Exclusive Art Stoles”</h2>
-  <p style="font-size: 20px;">Each stole is one-of-a-kind of Creative Wonder !</p>
+<section class="hero-slider">
+
+  <div class="slide active">
+    <img src="images/product3_1.jpeg">
+    <div class="slide-text">
+      <h2>Own the Only One</h2>
+      <p>Each HRIDH creation exists as a single piece</p>
+    </div>
+  </div>
+
+  <div class="slide">
+    <img src="images/product1_1.jpeg">
+    <div class="slide-text">
+      <h2>Hand-Painted. Never Reproduced.</h2>
+      <p>Wear a story, not a pattern</p>
+    </div>
+  </div>
+
+  <div class="slide">
+    <img src="images/product8_1.jpeg">
+    <div class="slide-text">
+      <h2>Art You Can Wear</h2>
+      <p>Crafted slowly, meant to last</p>
+    </div>
+  </div>
+
 </section>
 
 <section id="shop" class="product-section">
   <h3 class="section-title">The HRIDH Originals</h3>
   <div id="products" class="product-grid"></div>
 </section>
+
+<section id="why-hridh" class="brand-section why-section">
+
+<div class="brand-inner">
+
+<h2 class="brand-title">
+Why HRIDH
+</h2>
+
+<p class="section-subtle">
+Originality over repetition
+</p>
+
+<p class="brand-text">
+
+Most fashion today is produced in large quantities.
+Patterns are repeated.
+Designs are replicated.
+
+HRIDH creates original textile artworks that exist only once.
+
+Each piece is individually hand-painted and permanently retired after purchase.
+
+You are not buying a design.
+
+You are acquiring the only version of it that will ever exist.
+
+</p>
+
+<div class="brand-points">
+
+<div class="brand-point">
+
+<h4>One-of-one artwork</h4>
+
+<p>
+Each piece exists as a single edition.
+No copies are ever made.
+</p>
+
+</div>
+
+
+<div class="brand-point">
+
+<h4>Never reproduced</h4>
+
+<p>
+After purchase, the artwork is archived permanently.
+The design will never appear again.
+</p>
+
+</div>
+
+
+<div class="brand-point">
+
+<h4>Individual expression</h4>
+
+<p>
+Own something no one else in the world can own.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section id="about-hridh" class="brand-section about-section">
+
+<div class="brand-inner">
+
+<h2 class="brand-title">
+About HRIDH
+</h2>
+
+<p class="brand-text">
+
+HRIDH is a contemporary wearable art label focused on originality.
+
+Each artwork begins as a blank fabric and is individually painted by hand.
+
+No templates are used.
+No designs are repeated.
+
+The intention is simple:
+
+Create textile artworks that cannot be replicated.
+
+HRIDH exists for individuals who value expression, originality, and ownership of rare objects.
+
+Not mass produced.
+Not restocked.
+Not repeated.
+
+</p>
+
+</div>
+
+</section>
+
+<!-- <section class="brand-section">
+
+<div class="brand-inner">
+
+<h2 class="brand-title">
+Not fashion. Original artwork.
+</h2>
+
+<p class="brand-text">
+
+HRIDH creates one-of-one wearable artworks.
+
+Each piece is individually hand-painted and exists as a single edition.
+
+Once acquired, the design is permanently retired and never reproduced again.
+
+In a world of repetition, HRIDH stands for originality.
+
+</p>
+
+
+<div class="brand-points">
+
+<div class="brand-point">
+
+<h4>One-of-one creation</h4>
+
+<p>
+Every artwork exists only once.
+No copies are ever made.
+</p>
+
+</div>
+
+
+<div class="brand-point">
+
+<h4>Permanently retired design</h4>
+
+<p>
+After purchase, the artwork is archived and never recreated.
+</p>
+
+</div>
+
+
+<div class="brand-point">
+
+<h4>Wearable expression</h4>
+
+<p>
+Each piece is created as an individual artistic composition on fabric.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section> -->
 
 <section id="faq" class="faq-section">
   <h3 class="section-title">Frequently Asked Questions</h3>
@@ -92,14 +318,51 @@ However, if your item arrives damaged or defective, please contact us within 48 
 </main>
 
 <footer class="footer">
-  <div class="footer-inner">
-    <p>© 2026 HRIDH</p>
-    <p>Designed in India</p>
-  </div>
+
+<div class="footer-inner">
+
+<div class="footer-left">
+
+<p>© 2026 HRIDH</p>
+
+<p class="made-in">Designed in India</p>
+
+</div>
+
+
+<div class="footer-social">
+
+<a 
+href="https://www.instagram.com/hridh.creations?utm_source=qr&igsh=ZWlzaHR5NGI0Nmth"
+target="_blank"
+class="social-link"
+>
+
+Instagram
+
+</a>
+
+
+<a 
+href="https://www.facebook.com/share/1C8SNEtTuz/"
+target="_blank"
+class="social-link"
+>
+
+Facebook
+
+</a>
+
+</div>
+
+</div>
+
 </footer>
 
 <script src="js/products.js"></script>
 <script src="js/cart.js"></script>
 <script src="js/main.js"></script>
+
+<div class="menu-overlay" id="menu-overlay"></div>
 </body>
 </html>

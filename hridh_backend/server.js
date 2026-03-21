@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const Order = require("./models/Order");
 const Razorpay = require("razorpay");
+const productRoutes = require("./routes/productRoutes");
+
 require("dotenv").config();
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
@@ -15,6 +17,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+app.use("/api/products", productRoutes);
 
 app.use("/api/payment", paymentRoutes);
 
@@ -65,3 +69,6 @@ app.post("/create-razorpay-order", async (req, res) => {
   }
 
 });
+
+
+

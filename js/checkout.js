@@ -8,6 +8,13 @@ const address = document.getElementById("address").value;
 
 const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+if(cart.length === 0){
+
+alert("Your cart is empty");
+return;
+
+}
+
 const total = cart.reduce((sum,item)=>sum+item.price*item.qty,0);
 
 
@@ -17,7 +24,8 @@ headers:{
 "Content-Type":"application/json"
 },
 body:JSON.stringify({
-amount: total
+amount: total,
+productId: cart[0].id
 })
 });
 
@@ -61,7 +69,7 @@ orderData:{
 name:name,
 phone:phone,
 address:address,
-items:cart.map(i=>i.code),
+items:cart.map(i=>i.id),   // ✅ FIXED
 total:total
 
 }
@@ -73,6 +81,10 @@ total:total
 const result = await verifyRes.json();
 
 if(result.success){
+
+localStorage.setItem("lastOrder", JSON.stringify({
+productId: cart[0].id
+}));
 
 localStorage.removeItem("cart");
 
@@ -87,7 +99,6 @@ alert("Payment verification failed");
 }
 
 };
-
 
 const rzp = new Razorpay(options);
 
