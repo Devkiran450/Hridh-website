@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
 <title>Product | Hridh</title>
+
 <link rel="stylesheet" href="css/style.css" />
+
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
@@ -13,17 +20,42 @@
 <div id="toast" class="toast"></div>
 
 <header class="header">
+
 <div class="header-inner">
+
 <a href="index.html" class="logo">
 <img src="/images/black hridh_4-removebg-preview.png">
 </a>
 
-<nav class="nav">
-<a href="cart.html">Cart (<span id="cart-count">0</span>)</a>
-</nav>
-</div>
-</header>
+<button class="menu-toggle" id="menu-toggle">
 
+<span></span>
+<span></span>
+<span></span>
+
+</button>
+
+
+<nav class="nav" id="nav-menu">
+
+<a href="#why-hridh">Why HRIDH</a>
+
+<a href="#about-hridh">About</a>
+
+<a href="#faq">FAQ</a>
+
+<a href="cart.html">
+
+Cart (<span id="cart-count">0</span>)
+
+</a>
+
+</nav>
+
+
+</div>
+
+</header>
 
 <main class="pdp">
 
@@ -31,14 +63,17 @@
 
 <div class="image-stage">
 
-<img id="main-image" src="" alt="Product image">
+<button class="gallery-arrow left" id="prev-img">&#10094;</button>
+
+<div class="image-track" id="image-track"></div>
+
+<button class="gallery-arrow right" id="next-img">&#10095;</button>
 
 </div>
 
 <div id="thumbs" class="pdp-thumbs"></div>
 
 </div>
-
 
 <div class="pdp-info">
 
@@ -49,237 +84,344 @@
 <div class="deal-badge">Launch Offer</div>
 
 <div class="price-row">
+
 <span class="discount" id="product-discount"></span>
+
 <span class="final-price" id="product-price"></span>
+
 </div>
 
 <div class="mrp">
-M.R.P: <span id="product-mrp"></span>
-</div>
 
+M.R.P:
+
+<span id="product-mrp"></span>
+
+</div>
 
 <div class="pdp-trust">
-<span>✓ Hand-painted original</span>
-<span>✓ Only one piece exists</span>
-<span>✓ Certificate of authenticity included</span>
-<span>✓ Free shipping across India</span>
-</div>
+
+<ul class="product-highlights">
+  <li>✓ Hand-painted original</li>
+  <li>✓ Only one piece exists</li>
+  <li>✓ Certificate of authenticity included</li>
+  <li>✓ Free shipping across India</li>
+</ul>
 
 </div>
 
-
-<!-- Artwork identity -->
+</div>
 
 <div class="artwork-meta">
+
 <p><strong>Artwork ID:</strong> <span id="product-artid">—</span></p>
+
 <p><strong>Year:</strong> <span id="product-year">—</span></p>
+
 <p><strong>Edition:</strong> <span id="product-edition">—</span></p>
+
 </div>
 
-
 <h4 class="pdp-section">The Artwork</h4>
+
 <p class="pdp-story" id="product-story"></p>
 
 <h4 class="pdp-section">Product Details</h4>
+
 <p class="pdp-desc" id="product-desc"></p>
 
-<button id="add-to-cart-btn">Add to Cart</button>
+<div id="cart-action"></div>
 
 </div>
 
 </main>
 
-
 <footer class="footer">
+
 <div class="footer-inner">
+
+<div class="footer-left">
+
 <p>© 2026 HRIDH</p>
+
+<p class="made-in">Designed in India</p>
+
 </div>
+
+<div class="footer-social">
+
+<a href="https://www.instagram.com/hridh.creations" target="_blank">
+
+Instagram
+
+</a>
+
+<a href="https://www.facebook.com" target="_blank">
+
+Facebook
+
+</a>
+
+</div>
+
+</div>
+
 </footer>
 
-
 <script src="js/products.js"></script>
+
 <script src="js/cart.js"></script>
 
 <script>
 
 async function loadSoldProducts(){
 
-  try{
+try{
 
-    const res = await fetch("http://localhost:5000/api/products/sold-products");
-    const soldIds = await res.json();
+const res = await fetch("http://localhost:5000/api/products/sold-products");
 
-    return soldIds;
+return await res.json();
 
-  }catch(err){
-    console.log("Sold fetch error", err);
-    return [];
-  }
+}catch{
+
+return [];
 
 }
 
-
+}
 
 (async function(){
 
 updateCartCount();
 
 const params = new URLSearchParams(window.location.search);
+
 const id = Number(params.get("id"));
 
 const soldIds = await loadSoldProducts();
 
-const normalizedSoldIds = soldIds.map(Number);
-
 const product = products.find(p => p.id === id);
-if(normalizedSoldIds.includes(product.id))
-{
-    product.sold = true;
+
+if(!product){
+
+document.querySelector(".pdp").innerHTML = "<p>Product not found</p>";
+
+return;
+
 }
 
+if(soldIds.includes(product.id)) product.sold = true;
 
+/* TEXT */
 
-console.log("Sold ids:", soldIds);
-console.log("Product Ids:", product.id);
-if (!product) {
-  document.querySelector(".pdp").innerHTML = "<p>Product not found</p>";
-  return;
-}
-
-// 🔥 SET SOLD STATE
-if(soldIds.includes(product.id)){
-  product.sold = true;
-}
-
-// SET DATA
 document.getElementById("product-name").innerText = product.name;
+
 document.getElementById("product-story").innerText = product.story;
+
 document.getElementById("product-desc").innerText = product.description;
 
-document.getElementById("product-artid").innerText =
-  product.productId || product.code || "—";
+document.getElementById("product-artid").innerText = product.productId || product.code;
 
-document.getElementById("product-year").innerText =
-  product.year || "2026";
+document.getElementById("product-year").innerText = product.year || "2026";
 
-document.getElementById("product-edition").innerText =
-  product.edition || "1 of 1";
+document.getElementById("product-edition").innerText = product.edition || "1 of 1";
 
 /* PRICE */
 
-document.getElementById("product-price").innerText =
-"₹" + product.price;
+document.getElementById("product-price").innerText = "₹"+product.price;
 
-document.getElementById("product-mrp").innerText =
-"₹" + product.originalPrice;
+document.getElementById("product-mrp").innerText = "₹"+product.originalPrice;
 
 if(product.originalPrice){
 
-const discount = Math.round(
-100 - (product.price/product.originalPrice)*100
-);
+const discount = Math.round(100-(product.price/product.originalPrice)*100);
 
-document.getElementById("product-discount").innerText =
-"-" + discount + "%";
+document.getElementById("product-discount").innerText = "-"+discount+"%";
 
 }
 
-// IMAGES
-const mainImage = document.getElementById("main-image");
-const thumbs = document.getElementById("thumbs");
+/* IMAGE SLIDER */
 
-mainImage.src = product.images[0];
+const track = document.getElementById("image-track");
+
+const thumbs = document.getElementById("thumbs");
 
 let currentIndex = 0;
 
-product.images.forEach((img, index) => {
+product.images.forEach((img,index)=>{
+
+const image = document.createElement("img");
+
+image.src = img;
+
+track.appendChild(image);
 
 const thumb = document.createElement("img");
 
 thumb.src = img;
 
-if(index === 0) thumb.classList.add("active");
+if(index===0) thumb.classList.add("active");
 
-thumb.onclick = () => {
-
-const direction = index > currentIndex ? "right" : "left";
-
-animateImageChange(img, direction);
-
-document.querySelectorAll(".pdp-thumbs img")
-.forEach(t => t.classList.remove("active"));
-
-thumb.classList.add("active");
-
-currentIndex = index;
-
-};
+thumb.onclick = ()=>goToSlide(index);
 
 thumbs.appendChild(thumb);
 
 });
 
-function animateImageChange(newSrc, direction){
+function goToSlide(index){
 
-mainImage.classList.remove("slide-left","slide-right");
+currentIndex=index;
 
-void mainImage.offsetWidth;
+track.style.transform=`translateX(-${index*100}%)`;
 
-mainImage.classList.add(
-direction === "right" ? "slide-left" : "slide-right"
-);
+document.querySelectorAll(".pdp-thumbs img").forEach(t=>t.classList.remove("active"));
 
-setTimeout(()=>{
-
-mainImage.src = newSrc;
-
-mainImage.classList.remove("slide-left","slide-right");
-
-},180);
+document.querySelectorAll(".pdp-thumbs img")[index].classList.add("active");
 
 }
 
-// BUTTON LOGIC
-const btn = document.getElementById("add-to-cart-btn");
+document.getElementById("next-img").onclick=()=>{
 
-function renderBtn(){
+let i=currentIndex+1;
 
-  if(product.sold){
-    btn.innerText = "SOLD";
-    btn.disabled = true;
-    btn.style.cursor = "not-allowed";
-    return;
-  }
+if(i>=product.images.length) i=0;
 
-  const cart = getCart();
-  const exists = cart.find(p => p.id === product.id);
-
-  if(exists){
-    btn.innerText = "In Cart";
-    btn.disabled = true;
-  }else{
-    btn.innerText = "Add to Cart";
-  }
-
-}
-
-renderBtn();
-
-btn.onclick = function(){
-
-  if(product.sold) return;
-
-  addToCart(product);
-  showToast("Added to cart");
-  renderBtn();
+goToSlide(i);
 
 };
+
+document.getElementById("prev-img").onclick=()=>{
+
+let i=currentIndex-1;
+
+if(i<0) i=product.images.length-1;
+
+goToSlide(i);
+
+};
+
+/* SWIPE */
+
+let startX=0;
+
+track.addEventListener("touchstart",(e)=>{
+
+startX=e.touches[0].clientX;
+
+});
+
+track.addEventListener("touchend",(e)=>{
+
+const diff=startX-e.changedTouches[0].clientX;
+
+if(diff>40){
+
+let i=currentIndex+1;
+
+if(i>=product.images.length) i=0;
+
+goToSlide(i);
+
+}
+
+if(diff<-40){
+
+let i=currentIndex-1;
+
+if(i<0) i=product.images.length-1;
+
+goToSlide(i);
+
+}
+
+});
+
+/* CART UI */
+
+function renderCartAction(){
+
+const cart=getCart();
+
+const exists=cart.find(p=>p.id===product.id);
+
+const container=document.getElementById("cart-action");
+
+if(product.sold){
+
+container.innerHTML=`<button class="add-to-cart-btn" disabled>SOLD</button>`;
+
+return;
+
+}
+
+if(!exists){
+
+container.innerHTML=`
+
+<button class="add-to-cart-btn" onclick="addProductToCart()">
+
+Add to Cart
+
+</button>
+
+`;
+
+}else{
+
+container.innerHTML = `
+
+<button class="qty-mode">
+
+<span class="qty-btn" onclick="removeFromCart()">−</span>
+
+<span class="quantity">1</span>
+
+<span class="qty-btn" onclick="showToast('Only one piece available')">+</span>
+
+</button>
+
+`;
+
+}
+
+}
+
+window.addProductToCart=function(){
+
+addToCart(product);
+
+updateCartCount();
+
+renderCartAction();
+
+showToast("Added to cart");
+
+};
+
+window.removeFromCart=function(){
+
+let cart=getCart();
+
+cart=cart.filter(p=>p.id!==product.id);
+
+saveCart(cart);
+
+updateCartCount();
+
+renderCartAction();
+
+showToast("Removed from cart");
+
+};
+
+renderCartAction();
 
 })();
 
 </script>
 
 <script src="js/main.js"></script>
-<div class="menu-overlay" id="menu-overlay"></div>
+
 </body>
+
 </html>

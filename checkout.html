@@ -4,12 +4,15 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
 
 <title>Checkout | HRIDH</title>
 
 <link rel="stylesheet" href="css/style.css">
+
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
 
 <style>
 
@@ -249,7 +252,8 @@ position:static;
 <span id="summary-total">₹0</span>
 </div>
 
-<button class="checkout-btn" id="pay-btn">
+<!-- FIX: submit button -->
+<button type="submit" form="checkout-form" class="checkout-btn" id="pay-btn">
 Proceed to Payment
 </button>
 
@@ -274,13 +278,43 @@ Proceed to Payment
 
 <div class="footer-inner">
 
+<div class="footer-left">
+
 <p>© 2026 HRIDH</p>
+
+<p class="made-in">Designed in India</p>
+
+</div>
+
+
+<div class="footer-social">
+
+<a 
+href="https://www.instagram.com/hridh.creations?utm_source=qr&igsh=ZWlzaHR5NGI0Nmth"
+target="_blank"
+class="social-link"
+>
+Instagram
+</a>
+
+
+<a 
+href="https://www.facebook.com/share/1C8SNEtTuz/"
+target="_blank"
+class="social-link"
+>
+Facebook
+</a>
+
+</div>
 
 </div>
 
 </footer>
 
 
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script src="js/cart.js"></script>
 <script src="js/checkout.js"></script>
@@ -325,6 +359,7 @@ document.getElementById("summary-total").innerText = "₹" + total;
 </script>
 
 <div class="menu-overlay" id="menu-overlay"></div>
+
 </body>
 
 </html>

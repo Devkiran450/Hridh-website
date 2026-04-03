@@ -5,6 +5,8 @@ e.preventDefault();
 const name = document.getElementById("name").value;
 const phone = document.getElementById("phone").value;
 const address = document.getElementById("address").value;
+const city = document.getElementById("city").value;
+const pincode = document.getElementById("pincode").value;
 
 const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -15,22 +17,34 @@ return;
 
 }
 
-const total = cart.reduce((sum,item)=>sum+item.price*item.qty,0);
+/* FIX: correct total calculation */
+const total = cart.reduce((sum,item)=>sum+item.price,0);
 
+
+/* create order */
 
 const orderRes = await fetch("http://localhost:5000/api/payment/create-order",{
+
 method:"POST",
+
 headers:{
 "Content-Type":"application/json"
 },
+
 body:JSON.stringify({
+
 amount: total,
-productId: cart[0].id
+
+items: cart.map(p=>p.id)
+
 })
+
 });
 
 const orderData = await orderRes.json();
 
+
+/* razorpay */
 
 const options = {
 
@@ -44,7 +58,7 @@ order_id: orderData.id,
 
 name: "HRIDH",
 
-description: "Hand Painted Textile Art",
+description: "Original Textile Artwork",
 
 handler: async function (response) {
 
@@ -67,9 +81,17 @@ razorpay_signature: response.razorpay_signature,
 orderData:{
 
 name:name,
+
 phone:phone,
+
 address:address,
-items:cart.map(i=>i.id),   // ✅ FIXED
+
+city:city,
+
+pincode:pincode,
+
+items:cart.map(i=>i.id),
+
 total:total
 
 }
@@ -83,7 +105,9 @@ const result = await verifyRes.json();
 if(result.success){
 
 localStorage.setItem("lastOrder", JSON.stringify({
-productId: cart[0].id
+
+items: cart.map(i=>i.id)
+
 }));
 
 localStorage.removeItem("cart");
@@ -99,6 +123,7 @@ alert("Payment verification failed");
 }
 
 };
+
 
 const rzp = new Razorpay(options);
 

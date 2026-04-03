@@ -10,7 +10,7 @@ sold:false,
 name:"Blue Yellow Whirlpool Contemporary Art",
 
 price:2999,
-originalPrice:4999,
+originalPrice:3999,
 
 story:"Inspired by the fluid motion of water currents, this hand-painted design blends deep blues with warm yellow tones to create a striking whirlpool effect.",
 
@@ -18,8 +18,8 @@ description:"• Dynamic blue & yellow whirlpool artwork\n• Size: 48cm x 218cm
 
 images:[
 "images/product1_4.jpeg",
-"images/product1_1.jpeg",
-"images/product1_2.jpeg",
+"images/product1_6.png",
+"images/product1_5.png",
 "images/product1_3.jpeg"
 ]
 },
@@ -34,7 +34,7 @@ sold:false,
 name:"Brush Stroke Modern Abstract Linen Art",
 
 price:2999,
-originalPrice:4999,
+originalPrice:3999,
 
 story:"Bold brush strokes flow across natural linen, creating a modern abstract composition that captures spontaneity and energy.",
 
@@ -42,8 +42,8 @@ description:"• Contemporary brush stroke artwork\n• Size: 44cm x 210cm\n• 
 
 images:[
 "images/product2_4.jpeg",
-"images/product2_1.jpeg",
-"images/product2_2.jpeg",
+"images/product2_6.png",
+"images/product2_5.png",
 "images/product2_3.jpeg"
 ]
 },
@@ -62,12 +62,12 @@ originalPrice:4999,
 
 story:"A dramatic contrast of deep black and luminous gold leaf creates a refined artistic composition that evokes elegance and modern luxury.",
 
-description:"• Black & gold leaf artistic design\n• Size: 46cm x 220cm\n• Fabric: Rayon & viscose blend\n• Smooth drape with premium finish",
+description:"• Black & gold leaf artistic design\n• Size: 46cm x 220cm\n• Fabric: Rayon & viscose blend\n• Smooth drape with premium finish\n• Care: Cold wash separately, shade dry, iron on reverse only",
 
 images:[
 "images/product3_4.jpeg",
-"images/product3_1.jpeg",
-"images/product3_2.jpeg",
+"images/product3_6.png",
+"images/product3_5.png",
 "images/product3_3.jpeg"
 ]
 },
@@ -86,12 +86,12 @@ originalPrice:4999,
 
 story:"Hand-painted pink roses bloom against a rich black background, blending classical floral beauty with contemporary art expression.",
 
-description:"• Pink rose floral artwork\n• Size: 41cm x 222cm\n• Fabric: Rayon & viscose blend",
+description:"• Pink rose floral artwork\n• Size: 41cm x 222cm\n• Fabric: Rayon & viscose blend\n• Care: Cold wash separately, shade dry, iron on reverse only",
 
 images:[
 "images/product4_4.jpeg",
-"images/product4_1.jpeg",
-"images/product4_2.jpeg",
+"images/product4_6.png",
+"images/product4_5.png",
 "images/product4_3.jpeg"
 ]
 },
@@ -110,12 +110,12 @@ originalPrice:4999,
 
 story:"Inspired by the rhythm and form of a guitar, this design translates musical expression into a vibrant hand-painted textile composition.",
 
-description:"• Guitar themed artistic design\n• Size: 47cm x 216cm\n• Fabric: Linen flax\n• Natural woven texture",
+description:"• Guitar themed artistic design\n• Size: 47cm x 216cm\n• Fabric: Linen flax\n• Natural woven texture\n• Care: Cold wash separately, shade dry, iron on reverse only",
 
 images:[
 "images/product5_4.jpeg",
-"images/product5_1.jpeg",
-"images/product5_2.jpeg",
+"images/product5_5.png",
+"images/product5_6.png",
 "images/product5_3.jpeg"
 ]
 },
@@ -134,12 +134,12 @@ originalPrice:4999,
 
 story:"A minimalist pelican silhouette emerges from bold strokes, creating a striking wildlife inspired design.",
 
-description:"• Minimalist pelican design\n• Size: 41cm x 222cm\n• Fabric: Rayon & viscose blend",
+description:"• Minimalist pelican design\n• Size: 41cm x 222cm\n• Fabric: Rayon & viscose blend\n• Care: Cold wash separately, shade dry, iron on reverse only",
 
 images:[
 "images/product6_4.jpeg",
-"images/product6_1.jpeg",
-"images/product6_2.jpeg",
+"images/product6_6.png",
+"images/product6_5.png",
 "images/product6_3.jpeg"
 ]
 },
@@ -154,16 +154,16 @@ sold:false,
 name:"Yellow Pink Bubble Abstract Art",
 
 price:2999,
-originalPrice:4999,
+originalPrice:3999,
 
 story:"Vibrant yellow and pink tones form playful bubble-like patterns, creating a lively abstract composition.",
 
-description:"• Yellow & pink abstract artwork\n• Size: 47cm x 214cm\n• Fabric: Soft cotton",
+description:"• Yellow & pink abstract artwork\n• Size: 47cm x 214cm\n• Fabric: Soft cotton\n• Care: Cold wash separately, shade dry, iron on reverse only",
 
 images:[
 "images/product7_4.jpeg",
-"images/product7_1.jpeg",
-"images/product7_2.jpeg",
+"images/product7_6.png",
+"images/product7_5.png",
 "images/product7_3.jpeg"
 ]
 },
@@ -182,12 +182,12 @@ originalPrice:4999,
 
 story:"A charming yellow house motif brings warmth and character to this artistic textile composition.",
 
-description:"• Hand-painted yellow house artwork\n• Size: 53cm x 220cm\n• Fabric: Soft cotton / muslin",
+description:"• Hand-painted yellow house artwork\n• Size: 53cm x 220cm\n• Fabric: Soft cotton / muslin\n• Care: Cold wash separately, shade dry, iron on reverse only",
 
 images:[
 "images/product8_4.jpeg",
-"images/product8_1.jpeg",
-"images/product8_2.jpeg",
+"images/product8_9.png",
+"images/product8_8.png",
 "images/product8_3.jpeg"
 ]
 },
@@ -206,12 +206,12 @@ originalPrice:4999,
 
 story:"Inspired by the bold silhouette of a castle, this dramatic design creates a powerful statement through striking contrasts.",
 
-description:"• Bold black castle inspired design\n• Size: 54cm x 220cm\n• Fabric: Soft cotton",
+description:"• Bold black castle inspired design\n• Size: 54cm x 220cm\n• Fabric: Soft cotton\n• Care: Cold wash separately, shade dry, iron on reverse only",
 
 images:[
 "images/product9_4.jpeg",
-"images/product9_1.jpeg",
-"images/product9_2.jpeg",
+"images/product9_6.png",
+"images/product9_5.png",
 "images/product9_3.jpeg"
 ]
 },
@@ -226,16 +226,16 @@ sold:false,
 name:"Tomato Black Leaf Botanical Art",
 
 price:2999,
-originalPrice:4999,
+originalPrice:3999,
 
 story:"Rich tomato red tones meet deep black botanical leaves, creating a bold yet elegant nature inspired design.",
 
-description:"• Tomato red & black botanical artwork\n• Size: 50cm x 216cm\n• Fabric: Soft cotton",
+description:"• Tomato red & black botanical artwork\n• Size: 50cm x 216cm\n• Fabric: Soft cotton\n• Care: Cold wash separately, shade dry, iron on reverse only",
 
 images:[
 "images/product10_4.jpeg",
-"images/product10_1.jpeg",
-"images/product10_2.jpeg",
+"images/product10_6.png",
+"images/product10_5.png",
 "images/product10_3.jpeg"
 ]
 }

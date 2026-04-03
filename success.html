@@ -1,17 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Order Successful</title>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+
+<title>Artwork Acquired | HRIDH</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+
 </head>
 
-<body>
 
-<h2>Payment Successful</h2>
-<p>Your order has been placed successfully.</p>
+<body class="success-body">
 
-<a href="index.html">Continue Shopping</a>
+
+<main class="success-page">
+
+
+<div class="success-card">
+
+
+<div class="success-icon">
+
+✓
+
+</div>
+
+
+<h1>
+
+Artwork Acquired
+
+</h1>
+
+
+<p class="success-text">
+
+Your HRIDH original has been successfully reserved.
+
+This artwork is now permanently retired and will never be reproduced again.
+
+</p>
+
+
+<div class="success-meta">
+
+<p>
+
+Certificate of authenticity has been generated.
+
+</p>
+
+<p>
+
+Order confirmation details have been recorded.
+
+</p>
+
+</div>
+
+
+<div class="success-actions">
+
+<a href="index.html#shop" class="success-btn">
+
+Explore more artworks
+
+</a>
+
+
+<a href="index.html" class="success-btn secondary">
+
+Return to homepage
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+</main>
+
+
 
 <script>
 
@@ -20,7 +99,9 @@ const lastOrder = JSON.parse(localStorage.getItem("lastOrder"));
 if(lastOrder){
 
 fetch("http://localhost:5000/api/products/sold-products")
+
 .then(res=>res.json())
+
 .then(data=>{
 
 localStorage.setItem("soldProducts", JSON.stringify(data));
@@ -30,6 +111,8 @@ localStorage.setItem("soldProducts", JSON.stringify(data));
 }
 
 </script>
-<div class="menu-overlay" id="menu-overlay"></div>
+
+
 </body>
+
 </html>
