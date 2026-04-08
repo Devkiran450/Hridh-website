@@ -16,8 +16,27 @@ app.use(express.json());
 /* allow certificate download */
 app.use(
 "/certificates",
-express.static(path.join(__dirname,"certificates"))
+express.static(
+path.join(__dirname,"certificates")
+)
 );
+
+/* force download endpoint */
+
+app.get(
+"/download-certificate/:file",
+(req,res)=>{
+
+const filePath =
+path.join(
+__dirname,
+"certificates",
+req.params.file
+);
+
+res.download(filePath);
+
+});
 
 /* routes */
 app.use("/api/products", productRoutes);

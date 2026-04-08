@@ -110,34 +110,23 @@ localStorage.setItem("soldProducts", JSON.stringify(data));
 
 }
 
-
 const certificateUrl =
 localStorage.getItem("certificateUrl");
 
 if(certificateUrl){
 
-/* wait for server to finish writing file */
+const fileName =
+certificateUrl.split("/").pop();
+
+/* wait for PDF to finish generating */
 
 setTimeout(()=>{
 
-const link =
-document.createElement("a");
+window.location.href =
+"https://hridh-backend.onrender.com/download-certificate/"
++ fileName;
 
-link.href =
-"https://hridh-backend.onrender.com"
-+ certificateUrl;
-
-link.download =
-certificateUrl.split("/").pop();
-
-document.body.appendChild(link);
-
-link.click();
-
-link.remove();
-
-},1500);   // 1.5 second delay
-
+},2000);
 
 localStorage.removeItem("certificateUrl");
 
