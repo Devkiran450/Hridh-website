@@ -14,10 +14,18 @@ app.use(cors());
 app.use(express.json());
 
 /* allow certificate download */
-app.use(
-"/certificates",
-express.static(path.join(__dirname,"certificates"))
+app.use("/certificates", (req,res,next)=>{
+
+res.setHeader(
+"Content-Disposition",
+"attachment"
 );
+
+next();
+
+}, express.static(
+path.join(__dirname,"certificates")
+));
 
 /* routes */
 app.use("/api/products", productRoutes);

@@ -119,39 +119,23 @@ const fullUrl =
 "https://hridh-backend.onrender.com"
 + certificateUrl;
 
-/* force download */
+/* create hidden iframe to trigger download */
 
-fetch(fullUrl)
-.then(res => res.blob())
-.then(blob => {
+const iframe =
+document.createElement("iframe");
 
-const url =
-window.URL.createObjectURL(blob);
+iframe.style.display = "none";
 
-const link =
-document.createElement("a");
+iframe.src =
+fullUrl + "?download=1";
 
-link.href = url;
+document.body.appendChild(iframe);
 
-link.download =
-"HRIDH-Certificate.pdf";
-
-document.body.appendChild(link);
-
-link.click();
-
-link.remove();
-
-window.URL.revokeObjectURL(url);
-
-});
-
-/* clean storage */
+/* cleanup */
 
 localStorage.removeItem("certificateUrl");
 
 }
-
 
 </script>
 
