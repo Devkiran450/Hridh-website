@@ -8,14 +8,24 @@ try{
 
 const orders = await Order.find({}, "items");
 
-const soldIds = orders.flatMap(order => order.items);
+/* clean invalid values */
+const soldIds =
+orders
+.flatMap(order => order.items)
+.filter(id =>
+id !== null &&
+id !== undefined &&
+typeof id === "number"
+);
 
 res.json(soldIds);
 
 }
 catch(err){
 
-res.status(500).json({error:"Server error"});
+res.status(500).json({
+error:"Server error"
+});
 
 }
 
