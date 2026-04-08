@@ -110,28 +110,34 @@ localStorage.setItem("soldProducts", JSON.stringify(data));
 
 }
 
+
 const certificateUrl =
 localStorage.getItem("certificateUrl");
 
 if(certificateUrl){
 
-const fullUrl =
+/* wait for server to finish writing file */
+
+setTimeout(()=>{
+
+const link =
+document.createElement("a");
+
+link.href =
 "https://hridh-backend.onrender.com"
 + certificateUrl;
 
-/* create hidden iframe to trigger download */
+link.download =
+certificateUrl.split("/").pop();
 
-const iframe =
-document.createElement("iframe");
+document.body.appendChild(link);
 
-iframe.style.display = "none";
+link.click();
 
-iframe.src =
-fullUrl + "?download=1";
+link.remove();
 
-document.body.appendChild(iframe);
+},1500);   // 1.5 second delay
 
-/* cleanup */
 
 localStorage.removeItem("certificateUrl");
 
