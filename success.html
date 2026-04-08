@@ -115,12 +115,23 @@ localStorage.getItem("certificateUrl");
 
 if(certificateUrl){
 
+const fullUrl =
+"https://hridh-backend.onrender.com"
++ certificateUrl;
+
+/* force download */
+
+fetch(fullUrl)
+.then(res => res.blob())
+.then(blob => {
+
+const url =
+window.URL.createObjectURL(blob);
+
 const link =
 document.createElement("a");
 
-link.href =
-"https://hridh-backend.onrender.com"
-+ certificateUrl;
+link.href = url;
 
 link.download =
 "HRIDH-Certificate.pdf";
@@ -130,6 +141,12 @@ document.body.appendChild(link);
 link.click();
 
 link.remove();
+
+window.URL.revokeObjectURL(url);
+
+});
+
+/* clean storage */
 
 localStorage.removeItem("certificateUrl");
 
