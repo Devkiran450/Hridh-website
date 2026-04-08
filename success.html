@@ -98,7 +98,7 @@ const lastOrder = JSON.parse(localStorage.getItem("lastOrder"));
 
 if(lastOrder){
 
-fetch("http://localhost:5000/api/products/sold-products")
+fetch("http://hridh-backend.onrender.com/api/products/sold-products")
 
 .then(res=>res.json())
 

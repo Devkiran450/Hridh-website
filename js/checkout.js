@@ -23,7 +23,8 @@ const total = cart.reduce((sum,item)=>sum+item.price,0);
 
 /* create order */
 
-const orderRes = await fetch("http://localhost:5000/api/payment/create-order",{
+const orderRes = await fetch(
+"https://hridh-backend.onrender.com/api/payment/create-order",{
 
 method:"POST",
 
@@ -62,7 +63,8 @@ description: "Original Textile Artwork",
 
 handler: async function (response) {
 
-const verifyRes = await fetch("http://localhost:5000/api/payment/verify-payment",{
+const verifyRes = await fetch(
+"https://hridh-backend.onrender.com/api/payment/verify-payment",{
 
 method:"POST",
 
@@ -104,15 +106,51 @@ const result = await verifyRes.json();
 
 if(result.success){
 
-localStorage.setItem("lastOrder", JSON.stringify({
+/* auto download certificate */
+
+const link = document.createElement("a");
+
+link.href =
+"https://hridh-backend.onrender.com" +
+result.certificateUrl;
+
+link.download = "HRIDH-Certificate.pdf";
+
+document.body.appendChild(link);
+
+link.click();
+
+document.body.removeChild(link);
+
+
+/* store order */
+
+localStorage.setItem(
+
+"lastOrder",
+
+JSON.stringify({
 
 items: cart.map(i=>i.id)
 
-}));
+})
+
+);
+
+
+/* clear cart */
 
 localStorage.removeItem("cart");
 
+
+/* redirect */
+
+setTimeout(()=>{
+
 window.location.href="success.html";
+
+},1200);
+
 
 }else{
 

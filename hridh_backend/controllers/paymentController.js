@@ -3,134 +3,162 @@ const crypto = require("crypto");
 const Order = require("../models/Order");
 const generateCertificate = require("../services/certificateService");
 
-exports.createRazorpayOrder = async (req, res) => {
+exports.createRazorpayOrder = async (req,res)=>{
 
-  try {
+try{
 
-    const { amount, productId } = req.body;
+const { amount, items } = req.body;
 
-    const alreadySold = await Order.findOne({
-      items: productId
-    });
+const alreadySold = await Order.findOne({
+items:{ $in:items }
+});
 
-    if (alreadySold) {
-      return res.status(400).json({
-        success: false,
-        message: "Artwork already sold"
-      });
-    }
+if(alreadySold){
 
-    const options = {
-      amount: amount * 100,
-      currency: "INR",
-      receipt: "receipt_" + Date.now()
-    };
+return res.status(400).json({
+success:false,
+message:"Artwork already sold"
+});
 
-    const order = await razorpay.orders.create(options);
+}
 
-    res.json(order);
+const order = await razorpay.orders.create({
 
-  } catch (err) {
+amount: amount*100,
+currency:"INR",
+receipt:"receipt_"+Date.now()
 
-    console.log(err);
+});
 
-    res.status(500).json({
-      success: false,
-      message: "Error creating Razorpay order"
-    });
+res.json(order);
 
-  }
+}catch(err){
+
+console.log(err);
+
+res.status(500).json({
+success:false,
+message:"Error creating Razorpay order"
+});
+
+}
 
 };
 
 
+exports.verifyPayment = async (req,res)=>{
 
-exports.verifyPayment = async (req, res) => {
+try{
 
-  try {
+const {
 
-    const {
-      razorpay_order_id,
-      razorpay_payment_id,
-      razorpay_signature,
-      orderData
-    } = req.body;
+razorpay_order_id,
+razorpay_payment_id,
+razorpay_signature,
+orderData
 
-
-    // VERIFY SIGNATURE
-    const body = razorpay_order_id + "|" + razorpay_payment_id;
-
-    const expectedSignature = crypto
-      .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
-      .update(body.toString())
-      .digest("hex");
+} = req.body;
 
 
-    if (expectedSignature !== razorpay_signature) {
+/* verify signature */
 
-      return res.status(400).json({
-        success: false,
-        message: "Payment verification failed"
-      });
+const body =
+razorpay_order_id + "|" + razorpay_payment_id;
 
-    }
+const expectedSignature = crypto
+.createHmac(
+"sha256",
+process.env.RAZORPAY_KEY_SECRET
+)
+.update(body.toString())
+.digest("hex");
 
+if(expectedSignature !== razorpay_signature){
 
-    // CHECK DUPLICATE PAYMENT
-    const existingOrder = await Order.findOne({
-      paymentId: razorpay_payment_id
-    });
+return res.status(400).json({
+success:false,
+message:"Payment verification failed"
+});
 
-    if (existingOrder) {
-
-      return res.json({
-        success: true,
-        message: "Order already processed"
-      });
-
-    }
+}
 
 
-    // CHECK PRODUCT ALREADY SOLD
-    const productId = orderData.items[0];
+/* prevent duplicate payment */
 
-    const alreadySold = await Order.findOne({
-    items: { $in: orderData.items }
-    });
-    if (alreadySold) {
+const existingOrder =
+await Order.findOne({
 
-      return res.status(400).json({
-        success: false,
-        message: "Product already sold"
-      });
+paymentId:razorpay_payment_id
 
-    }
+});
+
+if(existingOrder){
+
+return res.json({
+success:true,
+certificateUrl:
+`/certificates/certificate_${existingOrder.paymentId}.pdf`
+});
+
+}
 
 
-    // SAVE ORDER
-    const newOrder = new Order({
-      ...orderData,
-      paymentId: razorpay_payment_id
-    });
+/* check already sold */
 
-    await newOrder.save();
+const alreadySold = await Order.findOne({
 
-    generateCertificate(newOrder);
+items:{ $in:orderData.items }
 
-    res.json({
-      success: true,
-      message: "Payment verified and order saved"
-    });
+});
 
-  } catch (error) {
+if(alreadySold){
 
-    console.log(error);
+return res.status(400).json({
+success:false,
+message:"Product already sold"
+});
 
-    res.status(500).json({
-      success: false,
-      message: "Server error"
-    });
+}
 
-  }
+
+/* save order */
+
+const newOrder = new Order({
+
+...orderData,
+paymentId: razorpay_payment_id
+
+});
+
+await newOrder.save();
+
+
+/* generate certificate */
+
+const fileName =
+generateCertificate(newOrder);
+
+
+/* send certificate url */
+
+res.json({
+
+success:true,
+
+certificateUrl:
+`/certificates/${fileName}`
+
+});
+
+}catch(err){
+
+console.log(err);
+
+res.status(500).json({
+success:false,
+message:"Server error"
+});
+
+}
 
 };
