@@ -106,28 +106,10 @@ const result = await verifyRes.json();
 
 if(result.success){
 
-const certificateUrl =
-"https://hridh-backend.onrender.com"
-+ result.certificateUrl;
-
-
-/* force download */
-
-const link =
-document.createElement("a");
-
-link.href =
-certificateUrl;
-
-link.download =
-"HRIDH-Certificate.pdf";
-
-document.body.appendChild(link);
-
-link.click();
-
-link.remove();
-
+localStorage.setItem(
+"certificateUrl",
+result.certificateUrl
+);
 
 localStorage.setItem(
 "lastOrder",
@@ -138,12 +120,7 @@ items: cart.map(i=>i.id)
 
 localStorage.removeItem("cart");
 
-
-setTimeout(()=>{
-
 window.location.href="success.html";
-
-},1000);
 
 }else{
 

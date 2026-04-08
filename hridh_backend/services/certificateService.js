@@ -19,7 +19,13 @@ right:70
 
 const fileName = `certificate_${order.paymentId}.pdf`;
 
-const filePath = path.join(__dirname,"../certificates",fileName);
+const dir = path.join(__dirname,"../certificates");
+
+if(!fs.existsSync(dir)){
+fs.mkdirSync(dir);
+}
+
+const filePath = path.join(dir,fileName);
 
 doc.pipe(fs.createWriteStream(filePath));
 

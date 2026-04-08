@@ -110,6 +110,32 @@ localStorage.setItem("soldProducts", JSON.stringify(data));
 
 }
 
+const certificateUrl =
+localStorage.getItem("certificateUrl");
+
+if(certificateUrl){
+
+const link =
+document.createElement("a");
+
+link.href =
+"https://hridh-backend.onrender.com"
++ certificateUrl;
+
+link.download =
+"HRIDH-Certificate.pdf";
+
+document.body.appendChild(link);
+
+link.click();
+
+link.remove();
+
+localStorage.removeItem("certificateUrl");
+
+}
+
+
 </script>
 
 
