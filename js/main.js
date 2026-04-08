@@ -213,7 +213,7 @@ async function loadSoldProducts(){
 
 try{
 
-const res=await fetch("http://hridh-backend.onrender.com/api/products/sold-products");
+const res=await fetch("https://hridh-backend.onrender.com/api/products/sold-products");
 
 const soldIds=await res.json();
 
