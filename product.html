@@ -10,6 +10,7 @@
 <title>Product | Hridh</title>
 
 <link rel="stylesheet" href="css/style.css" />
+<link rel="icon" type="image/png" href="/images/favicon_4.png">
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
@@ -38,11 +39,7 @@
 
 <nav class="nav" id="nav-menu">
 
-<a href="#why-hridh">Why HRIDH</a>
-
-<a href="#about-hridh">About</a>
-
-<a href="#faq">FAQ</a>
+<a href="index.html#why-hridh">More Collections</a>
 
 <a href="cart.html">
 
@@ -209,6 +206,8 @@ document.querySelector(".pdp").innerHTML = "<p>Product not found</p>";
 return;
 
 }
+
+document.title = product.name + " – One of One Artwork | HRIDH";
 
 if(soldIds.includes(product.id)) product.sold = true;
 
@@ -421,6 +420,9 @@ renderCartAction();
 </script>
 
 <script src="js/main.js"></script>
+
+
+
 
 </body>
 
