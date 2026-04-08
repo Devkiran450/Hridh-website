@@ -106,51 +106,44 @@ const result = await verifyRes.json();
 
 if(result.success){
 
-/* auto download certificate */
+const certificateUrl =
+"https://hridh-backend.onrender.com"
++ result.certificateUrl;
 
-const link = document.createElement("a");
+
+/* force download */
+
+const link =
+document.createElement("a");
 
 link.href =
-"https://hridh-backend.onrender.com" +
-result.certificateUrl;
+certificateUrl;
 
-link.download = "HRIDH-Certificate.pdf";
+link.download =
+"HRIDH-Certificate.pdf";
 
 document.body.appendChild(link);
 
 link.click();
 
-document.body.removeChild(link);
+link.remove();
 
-
-/* store order */
 
 localStorage.setItem(
-
 "lastOrder",
-
 JSON.stringify({
-
 items: cart.map(i=>i.id)
-
 })
-
 );
-
-
-/* clear cart */
 
 localStorage.removeItem("cart");
 
-
-/* redirect */
 
 setTimeout(()=>{
 
 window.location.href="success.html";
 
-},1200);
-
+},1000);
 
 }else{
 

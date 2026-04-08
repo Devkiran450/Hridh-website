@@ -46,119 +46,122 @@ message:"Error creating Razorpay order"
 };
 
 
-exports.verifyPayment = async (req,res)=>{
+exports.verifyPayment = async (req, res) => {
 
-try{
+  try {
 
-const {
-
-razorpay_order_id,
-razorpay_payment_id,
-razorpay_signature,
-orderData
-
-} = req.body;
+    const {
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+      orderData
+    } = req.body;
 
 
-/* verify signature */
+    /* VERIFY SIGNATURE */
 
-const body =
-razorpay_order_id + "|" + razorpay_payment_id;
+    const body =
+    razorpay_order_id + "|" + razorpay_payment_id;
 
-const expectedSignature = crypto
-.createHmac(
-"sha256",
-process.env.RAZORPAY_KEY_SECRET
-)
-.update(body.toString())
-.digest("hex");
-
-if(expectedSignature !== razorpay_signature){
-
-return res.status(400).json({
-success:false,
-message:"Payment verification failed"
-});
-
-}
+    const expectedSignature = crypto
+      .createHmac(
+        "sha256",
+        process.env.RAZORPAY_KEY_SECRET
+      )
+      .update(body.toString())
+      .digest("hex");
 
 
-/* prevent duplicate payment */
+    if (expectedSignature !== razorpay_signature) {
 
-const existingOrder =
-await Order.findOne({
+      return res.status(400).json({
+        success:false,
+        message:"Payment verification failed"
+      });
 
-paymentId:razorpay_payment_id
-
-});
-
-if(existingOrder){
-
-return res.json({
-success:true,
-certificateUrl:
-`/certificates/certificate_${existingOrder.paymentId}.pdf`
-});
-
-}
+    }
 
 
-/* check already sold */
+    /* PREVENT DUPLICATE PAYMENT */
 
-const alreadySold = await Order.findOne({
+    const existingOrder =
+    await Order.findOne({
+      paymentId: razorpay_payment_id
+    });
 
-items:{ $in:orderData.items }
+    if (existingOrder) {
 
-});
+      return res.json({
+        success:true,
+        message:"Order already processed",
+        certificateUrl:
+        `/certificates/certificate_${existingOrder.paymentId}.pdf`
+      });
 
-if(alreadySold){
-
-return res.status(400).json({
-success:false,
-message:"Product already sold"
-});
-
-}
-
-
-/* save order */
-
-const newOrder = new Order({
-
-...orderData,
-paymentId: razorpay_payment_id
-
-});
-
-await newOrder.save();
+    }
 
 
-/* generate certificate */
+    /* CHECK PRODUCT ALREADY SOLD */
 
-const fileName =
-generateCertificate(newOrder);
+    const alreadySold =
+    await Order.findOne({
+      items:{ $in: orderData.items }
+    });
+
+    if (alreadySold) {
+
+      return res.status(400).json({
+        success:false,
+        message:"Product already sold"
+      });
+
+    }
 
 
-/* send certificate url */
+    /* SAVE ORDER */
 
-res.json({
+    const newOrder = new Order({
 
-success:true,
+      ...orderData,
 
-certificateUrl:
-`/certificates/${fileName}`
+      paymentId: razorpay_payment_id
 
-});
+    });
 
-}catch(err){
+    await newOrder.save();
 
-console.log(err);
 
-res.status(500).json({
-success:false,
-message:"Server error"
-});
+    /* GENERATE CERTIFICATE */
 
-}
+    const fileName =
+    generateCertificate(newOrder);
+
+
+    res.json({
+
+      success:true,
+
+      message:"Payment verified",
+
+      certificateUrl:
+      `/certificates/${fileName}`
+
+    });
+
+  }
+
+  catch (error) {
+
+    console.log(error);
+
+    res.status(500).json({
+
+      success:false,
+
+      message:"Server error"
+
+    });
+
+  }
 
 };
