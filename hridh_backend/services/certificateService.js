@@ -2,6 +2,7 @@ const PDFDocument = require("pdfkit");
 const fs = require("fs");
 const path = require("path");
 
+
 function generateCertificate(order,itemId){
 
 const doc = new PDFDocument({
@@ -23,7 +24,10 @@ const fileName =
 
 
 const dir =
-path.join(__dirname,"../certificates");
+path.join(
+__dirname,
+"../certificates"
+);
 
 
 if(!fs.existsSync(dir)){
@@ -52,6 +56,7 @@ doc.lineWidth(3)
 .rect(40,40,515,762)
 .stroke("#1c1c1c");
 
+
 doc.lineWidth(1)
 .rect(55,55,485,732)
 .stroke("#1c1c1c");
@@ -60,20 +65,28 @@ doc.lineWidth(1)
 doc.font("Times-Bold")
 .fontSize(14)
 .fillColor("#333")
-.text("HRIDH",{align:"center"});
-
-
-doc.moveDown(2);
-
-doc.font("Times-Bold")
-.fontSize(28)
 .text(
-"CERTIFICATE OF AUTHENTICITY",
+"HRIDH",
 {align:"center"}
 );
 
 
+doc.moveDown(2);
+
+
+doc.font("Times-Bold")
+.fontSize(28)
+.text(
+
+"CERTIFICATE OF AUTHENTICITY",
+
+{align:"center"}
+
+);
+
+
 doc.moveDown();
+
 
 doc.font("Times-Italic")
 .fontSize(14)
@@ -87,6 +100,7 @@ doc.font("Times-Italic")
 
 
 doc.moveDown(3);
+
 
 doc.font("Times-Roman")
 .fontSize(16);
@@ -121,6 +135,7 @@ doc.text(
 
 doc.moveDown(3);
 
+
 doc.font("Times-Italic")
 .fontSize(16);
 
@@ -151,6 +166,8 @@ doc.text(
 
 );
 
+
+/* seal */
 
 doc.image(
 
@@ -185,8 +202,10 @@ y:720
 
 doc.end();
 
+
 return fileName;
 
 }
+
 
 module.exports = generateCertificate;

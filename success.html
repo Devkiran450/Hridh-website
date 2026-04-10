@@ -5,39 +5,48 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1,
+maximum-scale=1,
+user-scalable=no">
 
-<title>Artwork Acquired | HRIDH</title>
+<title>
+Artwork Acquired | HRIDH
+</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&display=swap"
+rel="stylesheet">
 
-<link rel="icon" type="image/png" href="/images/favicon_4.png">
+<link rel="icon"
+type="image/png"
+href="/images/favicon_4.png">
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet"
+href="css/style.css">
 
 </head>
+
 
 
 <body class="success-body">
 
 
+
 <main class="success-page">
+
 
 
 <div class="success-card">
 
 
 <div class="success-icon">
-
 ✓
-
 </div>
 
 
 <h1>
-
 Artwork Acquired
-
 </h1>
 
 
@@ -45,7 +54,8 @@ Artwork Acquired
 
 Your HRIDH original has been successfully reserved.
 
-This artwork is now permanently retired and will never be reproduced again.
+This artwork is now permanently retired
+and will never be reproduced again.
 
 </p>
 
@@ -53,31 +63,32 @@ This artwork is now permanently retired and will never be reproduced again.
 <div class="success-meta">
 
 <p>
-
-Certificate of authenticity has been generated.
-
+Certificate of authenticity
+has been generated.
 </p>
 
 <p>
-
-Order confirmation details have been recorded.
-
+Order confirmation
+details have been recorded.
 </p>
 
 </div>
 
 
+
 <div class="success-actions">
 
 
-<a href="index.html#shop" class="success-btn">
+<a href="index.html#shop"
+class="success-btn">
 
 Explore more artworks
 
 </a>
 
 
-<a href="index.html" class="success-btn secondary">
+<a href="index.html"
+class="success-btn secondary">
 
 Return to homepage
 
@@ -90,27 +101,29 @@ Return to homepage
 </div>
 
 
+
 </main>
 
 
 
+
 <!-- loading popup -->
-<div id="certificate-loading" class="cert-popup">
+
+<div
+id="certificate-loading"
+class="cert-popup">
 
 <div class="cert-box">
 
 <div class="spinner"></div>
 
 <h2>
-
 Preparing your certificate
-
 </h2>
 
 <p>
-
-Please don't close or refresh this page
-
+Please don't close
+or refresh this page
 </p>
 
 </div>
@@ -119,14 +132,19 @@ Please don't close or refresh this page
 
 
 
+
 <script>
 
-/* refresh sold products */
+
+/* refresh sold list */
 
 const lastOrder =
 JSON.parse(
-localStorage.getItem("lastOrder")
+localStorage.getItem(
+"lastOrder"
+)
 );
+
 
 if(lastOrder){
 
@@ -139,8 +157,11 @@ fetch(
 .then(data=>{
 
 localStorage.setItem(
+
 "soldProducts",
+
 JSON.stringify(data)
+
 );
 
 });
@@ -149,23 +170,18 @@ JSON.stringify(data)
 
 
 
-/* MULTIPLE CERTIFICATES */
+/* certificates */
 
 const certificateUrls =
 JSON.parse(
-localStorage.getItem("certificateUrls")
+localStorage.getItem(
+"certificateUrls"
+)
 );
 
 
 
-/* SINGLE CERTIFICATE fallback (old orders) */
-
-const singleCertificate =
-localStorage.getItem("certificateUrl");
-
-
-
-if(certificateUrls || singleCertificate){
+if(certificateUrls){
 
 const popup =
 document.getElementById(
@@ -176,13 +192,8 @@ document.getElementById(
 popup.classList.add("show");
 
 
-
 setTimeout(()=>{
 
-
-/* MULTIPLE */
-
-if(certificateUrls){
 
 certificateUrls.forEach(url=>{
 
@@ -195,6 +206,7 @@ document.createElement("a");
 
 
 link.href =
+
 "https://hridh-backend.onrender.com/download-certificate/"
 + fileName;
 
@@ -210,54 +222,12 @@ link.remove();
 });
 
 
+popup.classList.remove("show");
+
 
 localStorage.removeItem(
 "certificateUrls"
 );
-
-}
-
-
-
-/* SINGLE fallback */
-
-if(singleCertificate){
-
-const fileName =
-singleCertificate
-.split("/")
-.pop();
-
-
-const link =
-document.createElement("a");
-
-
-link.href =
-"https://hridh-backend.onrender.com/download-certificate/"
-+ fileName;
-
-
-document.body.appendChild(link);
-
-
-link.click();
-
-
-link.remove();
-
-
-localStorage.removeItem(
-"certificateUrl"
-);
-
-}
-
-
-
-/* hide popup */
-
-popup.classList.remove("show");
 
 
 },2000);
@@ -269,5 +239,4 @@ popup.classList.remove("show");
 
 
 </body>
-
 </html>

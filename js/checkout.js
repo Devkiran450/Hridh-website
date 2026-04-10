@@ -1,30 +1,55 @@
-document.getElementById("checkout-form").addEventListener("submit", async function(e){
+document.getElementById("checkout-form")
+.addEventListener("submit", async function(e){
 
 e.preventDefault();
 
-const name = document.getElementById("name").value;
-const phone = document.getElementById("phone").value;
-const address = document.getElementById("address").value;
-const city = document.getElementById("city").value;
-const pincode = document.getElementById("pincode").value;
 
-const cart = JSON.parse(localStorage.getItem("cart")) || [];
+const name =
+document.getElementById("name").value;
+
+const phone =
+document.getElementById("phone").value;
+
+const address =
+document.getElementById("address").value;
+
+const city =
+document.getElementById("city").value;
+
+const pincode =
+document.getElementById("pincode").value;
+
+
+const cart =
+JSON.parse(localStorage.getItem("cart")) || [];
+
 
 if(cart.length === 0){
 
 alert("Your cart is empty");
+
 return;
 
 }
 
-/* FIX: correct total calculation */
-const total = cart.reduce((sum,item)=>sum+item.price,0);
+
+/* total */
+
+const total =
+cart.reduce(
+(sum,item)=>sum+item.price,
+0
+);
 
 
-/* create order */
+/* create razorpay order */
 
-const orderRes = await fetch(
-"https://hridh-backend.onrender.com/api/payment/create-order",{
+const orderRes =
+await fetch(
+
+"https://hridh-backend.onrender.com/api/payment/create-order",
+
+{
 
 method:"POST",
 
@@ -36,35 +61,71 @@ body:JSON.stringify({
 
 amount: total,
 
-items: cart.map(p=>p.id)
+items:
+cart.map(p=>p.id)
 
 })
 
-});
+}
 
-const orderData = await orderRes.json();
+);
 
 
-/* razorpay */
+/* if artwork sold meanwhile */
+
+if(!orderRes.ok){
+
+const err =
+await orderRes.json();
+
+alert(
+
+err.message ||
+
+"One of the artworks is already sold"
+
+);
+
+return;
+
+}
+
+
+const orderData =
+await orderRes.json();
+
+
+/* razorpay popup */
 
 const options = {
 
-key: "rzp_test_SRQJ5gWZjy9rqr",
+key:
+"rzp_test_SRQJ5gWZjy9rqr",
 
-amount: orderData.amount,
+amount:
+orderData.amount,
 
-currency: "INR",
+currency:"INR",
 
-order_id: orderData.id,
+order_id:
+orderData.id,
 
-name: "HRIDH",
+name:"HRIDH",
 
-description: "Original Textile Artwork",
+description:
+"Original Textile Artwork",
 
-handler: async function (response) {
 
-const verifyRes = await fetch(
-"https://hridh-backend.onrender.com/api/payment/verify-payment",{
+handler:
+async function(response){
+
+
+const verifyRes =
+await fetch(
+
+"https://hridh-backend.onrender.com/api/payment/verify-payment",
+
+{
 
 method:"POST",
 
@@ -74,11 +135,15 @@ headers:{
 
 body: JSON.stringify({
 
-razorpay_order_id: response.razorpay_order_id,
+razorpay_order_id:
+response.razorpay_order_id,
 
-razorpay_payment_id: response.razorpay_payment_id,
+razorpay_payment_id:
+response.razorpay_payment_id,
 
-razorpay_signature: response.razorpay_signature,
+razorpay_signature:
+response.razorpay_signature,
+
 
 orderData:{
 
@@ -92,7 +157,8 @@ city:city,
 
 pincode:pincode,
 
-items:cart.map(i=>i.id),
+items:
+cart.map(i=>i.id),
 
 total:total
 
@@ -100,31 +166,59 @@ total:total
 
 })
 
-});
+}
 
-const result = await verifyRes.json();
+);
+
+
+const result =
+await verifyRes.json();
+
 
 if(result.success){
 
-localStorage.setItem(
-"certificateUrls",
-JSON.stringify(result.certificateUrls)
-);
 
 localStorage.setItem(
-"lastOrder",
-JSON.stringify({
-items: cart.map(i=>i.id)
-})
+
+"certificateUrls",
+
+JSON.stringify(
+result.certificateUrls
+)
+
 );
+
+
+localStorage.setItem(
+
+"lastOrder",
+
+JSON.stringify({
+
+items:
+cart.map(i=>i.id)
+
+})
+
+);
+
 
 localStorage.removeItem("cart");
 
-window.location.href="success.html";
 
-}else{
+window.location.href =
+"success.html";
 
-alert("Payment verification failed");
+}
+else{
+
+alert(
+
+result.message ||
+
+"Payment verification failed"
+
+);
 
 }
 
@@ -133,7 +227,23 @@ alert("Payment verification failed");
 };
 
 
-const rzp = new Razorpay(options);
+const rzp =
+new Razorpay(options);
+
+
+/* if payment popup closed */
+
+rzp.on(
+"payment.failed",
+function(){
+
+alert(
+"Payment cancelled"
+);
+
+}
+);
+
 
 rzp.open();
 
