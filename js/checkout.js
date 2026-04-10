@@ -108,7 +108,7 @@ if(result.success){
 
 localStorage.setItem(
 "certificateUrls",
-result.certificateUrls
+JSON.stringify(result.certificateUrls)
 );
 
 localStorage.setItem(
