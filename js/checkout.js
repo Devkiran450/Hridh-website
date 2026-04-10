@@ -107,8 +107,8 @@ const result = await verifyRes.json();
 if(result.success){
 
 localStorage.setItem(
-"certificateUrl",
-result.certificateUrl
+"certificateUrls",
+result.certificateUrls
 );
 
 localStorage.setItem(

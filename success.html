@@ -7,11 +7,12 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
-
 <title>Artwork Acquired | HRIDH</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
 <link rel="icon" type="image/png" href="/images/favicon_4.png">
+
 <link rel="stylesheet" href="css/style.css">
 
 </head>
@@ -68,6 +69,7 @@ Order confirmation details have been recorded.
 
 <div class="success-actions">
 
+
 <a href="index.html#shop" class="success-btn">
 
 Explore more artworks
@@ -92,47 +94,178 @@ Return to homepage
 
 
 
+<!-- loading popup -->
+<div id="certificate-loading" class="cert-popup">
+
+<div class="cert-box">
+
+<div class="spinner"></div>
+
+<h2>
+
+Preparing your certificate
+
+</h2>
+
+<p>
+
+Please don't close or refresh this page
+
+</p>
+
+</div>
+
+</div>
+
+
+
 <script>
 
-const lastOrder = JSON.parse(localStorage.getItem("lastOrder"));
+/* refresh sold products */
+
+const lastOrder =
+JSON.parse(
+localStorage.getItem("lastOrder")
+);
 
 if(lastOrder){
 
-fetch("https://hridh-backend.onrender.com/api/products/sold-products")
+fetch(
+"https://hridh-backend.onrender.com/api/products/sold-products"
+)
 
 .then(res=>res.json())
 
 .then(data=>{
 
-localStorage.setItem("soldProducts", JSON.stringify(data));
+localStorage.setItem(
+"soldProducts",
+JSON.stringify(data)
+);
 
 });
 
 }
 
-const certificateUrl =
+
+
+/* MULTIPLE CERTIFICATES */
+
+const certificateUrls =
+JSON.parse(
+localStorage.getItem("certificateUrls")
+);
+
+
+
+/* SINGLE CERTIFICATE fallback (old orders) */
+
+const singleCertificate =
 localStorage.getItem("certificateUrl");
 
-if(certificateUrl){
 
-const fileName =
-certificateUrl.split("/").pop();
 
-/* wait for PDF to finish generating */
+if(certificateUrls || singleCertificate){
+
+const popup =
+document.getElementById(
+"certificate-loading"
+);
+
+
+popup.classList.add("show");
+
+
 
 setTimeout(()=>{
 
-window.location.href =
+
+/* MULTIPLE */
+
+if(certificateUrls){
+
+certificateUrls.forEach(url=>{
+
+const fileName =
+url.split("/").pop();
+
+
+const link =
+document.createElement("a");
+
+
+link.href =
 "https://hridh-backend.onrender.com/download-certificate/"
 + fileName;
 
-},2000);
 
-localStorage.removeItem("certificateUrl");
+document.body.appendChild(link);
+
+
+link.click();
+
+
+link.remove();
+
+});
+
+
+
+localStorage.removeItem(
+"certificateUrls"
+);
+
+}
+
+
+
+/* SINGLE fallback */
+
+if(singleCertificate){
+
+const fileName =
+singleCertificate
+.split("/")
+.pop();
+
+
+const link =
+document.createElement("a");
+
+
+link.href =
+"https://hridh-backend.onrender.com/download-certificate/"
++ fileName;
+
+
+document.body.appendChild(link);
+
+
+link.click();
+
+
+link.remove();
+
+
+localStorage.removeItem(
+"certificateUrl"
+);
+
+}
+
+
+
+/* hide popup */
+
+popup.classList.remove("show");
+
+
+},2000);
 
 }
 
 </script>
+
 
 
 </body>

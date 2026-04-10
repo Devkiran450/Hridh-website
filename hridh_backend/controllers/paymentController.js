@@ -48,120 +48,130 @@ message:"Error creating Razorpay order"
 
 exports.verifyPayment = async (req, res) => {
 
-  try {
+try {
 
-    const {
-      razorpay_order_id,
-      razorpay_payment_id,
-      razorpay_signature,
-      orderData
-    } = req.body;
-
-
-    /* VERIFY SIGNATURE */
-
-    const body =
-    razorpay_order_id + "|" + razorpay_payment_id;
-
-    const expectedSignature = crypto
-      .createHmac(
-        "sha256",
-        process.env.RAZORPAY_KEY_SECRET
-      )
-      .update(body.toString())
-      .digest("hex");
+const {
+razorpay_order_id,
+razorpay_payment_id,
+razorpay_signature,
+orderData
+} = req.body;
 
 
-    if (expectedSignature !== razorpay_signature) {
+/* VERIFY SIGNATURE */
 
-      return res.status(400).json({
-        success:false,
-        message:"Payment verification failed"
-      });
+const body =
+razorpay_order_id + "|" + razorpay_payment_id;
 
-    }
-
-
-    /* PREVENT DUPLICATE PAYMENT */
-
-    const existingOrder =
-    await Order.findOne({
-      paymentId: razorpay_payment_id
-    });
-
-    if (existingOrder) {
-
-      return res.json({
-        success:true,
-        message:"Order already processed",
-        certificateUrl:
-        `/certificates/certificate_${existingOrder.paymentId}.pdf`
-      });
-
-    }
+const expectedSignature = crypto
+.createHmac(
+"sha256",
+process.env.RAZORPAY_KEY_SECRET
+)
+.update(body.toString())
+.digest("hex");
 
 
-    /* CHECK PRODUCT ALREADY SOLD */
+if(expectedSignature !== razorpay_signature){
 
-    const alreadySold =
-    await Order.findOne({
-      items:{ $in: orderData.items }
-    });
+return res.status(400).json({
+success:false,
+message:"Payment verification failed"
+});
 
-    if (alreadySold) {
-
-      return res.status(400).json({
-        success:false,
-        message:"Product already sold"
-      });
-
-    }
+}
 
 
-    /* SAVE ORDER */
+/* CHECK DUPLICATE PAYMENT */
 
-    const newOrder = new Order({
+const existingOrder =
+await Order.findOne({
+paymentId: razorpay_payment_id
+});
 
-      ...orderData,
+if(existingOrder){
 
-      paymentId: razorpay_payment_id
+return res.json({
+success:true,
+certificateUrls:
+existingOrder.items.map(id =>
+`/certificates/certificate_${razorpay_payment_id}_${id}.pdf`
+)
+});
 
-    });
-
-    await newOrder.save();
-
-
-    /* GENERATE CERTIFICATE */
-
-    const fileName =
-    generateCertificate(newOrder);
+}
 
 
-    res.json({
+/* CHECK SOLD */
 
-      success:true,
+const alreadySold =
+await Order.findOne({
+items:{ $in: orderData.items }
+});
 
-      message:"Payment verified",
+if(alreadySold){
 
-      certificateUrl:
-      `/certificates/${fileName}`
+return res.status(400).json({
+success:false,
+message:"Product already sold"
+});
 
-    });
+}
 
-  }
 
-  catch (error) {
+/* SAVE ORDER */
 
-    console.log(error);
+const newOrder = new Order({
 
-    res.status(500).json({
+...orderData,
 
-      success:false,
+paymentId: razorpay_payment_id
 
-      message:"Server error"
+});
 
-    });
+await newOrder.save();
 
-  }
+
+/* GENERATE MULTIPLE CERTIFICATES */
+
+const certificateUrls = [];
+
+for(const itemId of orderData.items){
+
+const fileName =
+generateCertificate(
+newOrder,
+itemId
+);
+
+certificateUrls.push(
+`/certificates/${fileName}`
+);
+
+}
+
+
+/* SEND ALL URLs */
+
+res.json({
+
+success:true,
+
+certificateUrls
+
+});
+
+}
+
+catch(err){
+
+console.log(err);
+
+res.status(500).json({
+success:false,
+message:"Server error"
+});
+
+}
 
 };
