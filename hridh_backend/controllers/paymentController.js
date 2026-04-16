@@ -3,6 +3,10 @@ const crypto = require("crypto");
 const Order = require("../models/Order");
 const generateCertificate = require("../services/certificateService");
 
+const fs = require("fs");
+const path = require("path");
+const archiver = require("archiver");
+
 
 /* CREATE ORDER */
 
@@ -60,6 +64,44 @@ message:"Error creating Razorpay order"
 }
 
 };
+
+
+
+/* helper to create ZIP */
+
+function createZip(paymentId, files){
+
+return new Promise((resolve,reject)=>{
+
+const zipName = `certificates_${paymentId}.zip`;
+
+const zipPath =
+path.join(__dirname,"../certificates",zipName);
+
+const output = fs.createWriteStream(zipPath);
+
+const archive = archiver("zip");
+
+output.on("close",()=>resolve(zipName));
+
+archive.on("error",(err)=>reject(err));
+
+archive.pipe(output);
+
+files.forEach(file=>{
+
+archive.file(
+path.join(__dirname,"../certificates",file),
+{ name:file }
+);
+
+});
+
+archive.finalize();
+
+});
+
+}
 
 
 
@@ -143,6 +185,22 @@ existingOrder.items.map(id=>
 
 
 
+/* ensure items exist */
+
+if(!orderData || !orderData.items || orderData.items.length===0){
+
+return res.status(400).json({
+
+success:false,
+
+message:"Invalid order data"
+
+});
+
+}
+
+
+
 /* prevent race condition */
 
 const alreadySold =
@@ -167,7 +225,7 @@ message:"One of the artworks was just sold"
 
 
 
-/* save order */
+/* save order ONLY AFTER verification */
 
 const newOrder =
 new Order({
@@ -185,8 +243,7 @@ await newOrder.save();
 
 /* generate certificates */
 
-const certificateUrls = [];
-
+const files = [];
 
 for(const itemId of orderData.items){
 
@@ -196,26 +253,45 @@ newOrder,
 itemId
 );
 
+files.push(fileName);
 
-certificateUrls.push(
+}
 
-`/certificates/${fileName}`
 
+
+/* if multiple → zip */
+
+let downloadFile;
+
+if(files.length === 1){
+
+downloadFile = files[0];
+
+}
+else{
+
+downloadFile =
+await createZip(
+razorpay_payment_id,
+files
 );
 
 }
 
 
 
-/* send urls */
+/* return SINGLE download url */
 
 res.json({
 
 success:true,
 
-certificateUrls
+certificateUrls:[
+`/certificates/${downloadFile}`
+]
 
 });
+
 
 }
 catch(err){
