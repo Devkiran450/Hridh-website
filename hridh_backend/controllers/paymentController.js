@@ -54,6 +54,8 @@ function createZip(paymentId, files){
 
 return new Promise((resolve,reject)=>{
 
+try{
+
 const zipName = `certificates_${paymentId}.zip`;
 
 const zipPath =
@@ -63,22 +65,53 @@ const output = fs.createWriteStream(zipPath);
 
 const archive = archiver("zip");
 
-output.on("close",()=>resolve(zipName));
+output.on("close",()=>{
 
-archive.on("error",(err)=>reject(err));
+console.log("ZIP CREATED:",zipName);
+
+resolve(zipName);
+
+});
+
+archive.on("error",(err)=>{
+
+console.log("ZIP ERROR:",err);
+
+reject(err);
+
+});
 
 archive.pipe(output);
 
 files.forEach(file=>{
 
+const fullPath =
+path.join(__dirname,"../certificates",file);
+
+if(fs.existsSync(fullPath)){
+
 archive.file(
-path.join(__dirname,"../certificates",file),
+fullPath,
 { name:file }
 );
+
+}
+else{
+
+console.log("FILE NOT FOUND FOR ZIP:",file);
+
+}
 
 });
 
 archive.finalize();
+
+}
+catch(err){
+
+reject(err);
+
+}
 
 });
 
@@ -106,6 +139,9 @@ orderData
 
 
 
+console.log("VERIFY REQUEST:",req.body);
+
+
 /* verify signature */
 
 const body =
@@ -122,7 +158,13 @@ process.env.RAZORPAY_KEY_SECRET
 .digest("hex");
 
 
+console.log("EXPECTED:",expectedSignature);
+console.log("RECEIVED:",razorpay_signature);
+
+
 if(expectedSignature !== razorpay_signature){
+
+console.log("SIGNATURE FAILED");
 
 return res.status(400).json({
 
@@ -148,6 +190,8 @@ paymentId: razorpay_payment_id
 
 if(existingOrder){
 
+console.log("ORDER ALREADY EXISTS");
+
 return res.json({
 
 success:true,
@@ -166,9 +210,11 @@ existingOrder.items.map(id=>
 
 
 
-/* ensure items exist */
+/* validate order data */
 
 if(!orderData || !orderData.items || orderData.items.length===0){
+
+console.log("INVALID ORDER DATA");
 
 return res.status(400).json({
 
@@ -194,6 +240,8 @@ items:{ $in: orderData.items }
 
 if(alreadySold){
 
+console.log("ITEM ALREADY SOLD");
+
 return res.status(400).json({
 
 success:false,
@@ -206,7 +254,7 @@ message:"One of the artworks was just sold"
 
 
 
-/* save order ONLY AFTER verification */
+/* save order AFTER verification */
 
 const newOrder =
 new Order({
@@ -228,6 +276,8 @@ const files = [];
 
 for(const itemId of orderData.items){
 
+try{
+
 const fileName =
 generateCertificate(
 newOrder,
@@ -237,6 +287,19 @@ itemId
 files.push(fileName);
 
 }
+catch(err){
+
+console.log("CERT ERROR:",err);
+
+}
+
+}
+
+
+
+/* small delay ensures pdf write completed */
+
+await new Promise(r=>setTimeout(r,500));
 
 
 
@@ -261,7 +324,10 @@ files
 
 
 
-/* return SINGLE download url */
+/* response */
+
+console.log("DOWNLOAD FILE:",downloadFile);
+
 
 res.json({
 
@@ -277,7 +343,7 @@ certificateUrls:[
 }
 catch(err){
 
-console.log(err);
+console.log("VERIFY ERROR:",err);
 
 res.status(500).json({
 
