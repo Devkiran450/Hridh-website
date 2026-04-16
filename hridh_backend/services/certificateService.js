@@ -31,6 +31,7 @@ const dir =
 path.join(
 __dirname,
 "../certificates"
+
 );
 
 
@@ -179,7 +180,7 @@ doc.image(
 
 path.join(
 __dirname,
-"../assets/hridh-seal.png"
+"../images/hridh-seal.png"
 ),
 
 doc.page.width/2 - 55,
