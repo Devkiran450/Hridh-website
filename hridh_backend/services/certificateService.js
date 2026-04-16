@@ -5,6 +5,10 @@ const path = require("path");
 
 function generateCertificate(order,itemId){
 
+return new Promise((resolve,reject)=>{
+
+try{
+
 const doc = new PDFDocument({
 
 size:"A4",
@@ -39,9 +43,11 @@ const filePath =
 path.join(dir,fileName);
 
 
-doc.pipe(
-fs.createWriteStream(filePath)
-);
+const stream =
+fs.createWriteStream(filePath);
+
+
+doc.pipe(stream);
 
 
 /* background */
@@ -203,7 +209,30 @@ y:720
 doc.end();
 
 
-return `/certificates/${fileName}`;
+/* WAIT until file saved */
+
+stream.on("finish",()=>{
+
+resolve(fileName);
+
+});
+
+
+stream.on("error",(err)=>{
+
+reject(err);
+
+});
+
+
+}
+catch(err){
+
+reject(err);
+
+}
+
+});
 
 }
 

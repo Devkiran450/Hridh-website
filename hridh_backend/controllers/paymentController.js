@@ -279,7 +279,7 @@ for(const itemId of orderData.items){
 try{
 
 const fileName =
-generateCertificate(
+await generateCertificate(
 newOrder,
 itemId
 );
