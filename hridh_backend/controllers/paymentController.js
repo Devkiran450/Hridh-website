@@ -56,18 +56,30 @@ return new Promise((resolve,reject)=>{
 
 try{
 
-const zipName = `certificates_${paymentId}.zip`;
+console.log("FILES RECEIVED FOR ZIP:",files);
+
+const zipName =
+`certificates_${paymentId}.zip`;
 
 const zipPath =
-path.join(__dirname,"../certificates",zipName);
+path.join(
+__dirname,
+"../certificates",
+zipName
+);
 
-const output = fs.createWriteStream(zipPath);
+const output =
+fs.createWriteStream(zipPath);
 
-const archive = archiver("zip");
+const archive =
+archiver("zip",{ zlib:{ level:9 } });
 
 output.on("close",()=>{
 
-console.log("ZIP CREATED:",zipName);
+console.log(
+"ZIP SIZE:",
+archive.pointer()
+);
 
 resolve(zipName);
 
@@ -83,12 +95,24 @@ reject(err);
 
 archive.pipe(output);
 
-files.forEach(file=>{
+for(const file of files){
 
 const fullPath =
-path.join(__dirname,"../certificates",file);
+path.join(
+__dirname,
+"../certificates",
+file
+);
 
-if(fs.existsSync(fullPath)){
+console.log("ADDING FILE:",fullPath);
+
+if(!fs.existsSync(fullPath)){
+
+console.log("MISSING FILE:",file);
+
+continue;
+
+}
 
 archive.file(
 fullPath,
@@ -96,13 +120,6 @@ fullPath,
 );
 
 }
-else{
-
-console.log("FILE NOT FOUND FOR ZIP:",file);
-
-}
-
-});
 
 archive.finalize();
 
@@ -299,7 +316,7 @@ console.log("CERT ERROR:",err);
 
 /* small delay ensures pdf write completed */
 
-await new Promise(r=>setTimeout(r,500));
+
 
 
 
