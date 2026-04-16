@@ -14,25 +14,7 @@ exports.createRazorpayOrder = async (req,res)=>{
 
 try{
 
-const { amount, items } = req.body;
-
-
-/* prevent buying already sold artwork */
-
-const alreadySold =
-await Order.findOne({
-items:{ $in:items }
-});
-
-if(alreadySold){
-
-return res.status(400).json({
-success:false,
-message:"One of the artworks is already sold"
-});
-
-}
-
+const { amount } = req.body;
 
 const order =
 await razorpay.orders.create({
@@ -44,7 +26,6 @@ currency:"INR",
 receipt:"receipt_"+Date.now()
 
 });
-
 
 res.json(order);
 
