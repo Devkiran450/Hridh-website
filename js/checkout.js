@@ -1,7 +1,13 @@
+let paymentProcessing = false;
+
 document.getElementById("checkout-form")
 .addEventListener("submit", async function(e){
 
 e.preventDefault();
+
+/* prevent multiple clicks */
+if(paymentProcessing) return;
+paymentProcessing = true;
 
 
 const name =
@@ -26,6 +32,8 @@ JSON.parse(localStorage.getItem("cart")) || [];
 
 if(cart.length === 0){
 
+paymentProcessing = false;
+
 alert("Your cart is empty");
 
 return;
@@ -43,6 +51,10 @@ cart.reduce(
 
 
 /* create razorpay order */
+
+let orderData;
+
+try{
 
 const orderRes =
 await fetch(
@@ -71,9 +83,9 @@ cart.map(p=>p.id)
 );
 
 
-/* if artwork sold meanwhile */
-
 if(!orderRes.ok){
+
+paymentProcessing = false;
 
 const err =
 await orderRes.json();
@@ -82,7 +94,7 @@ alert(
 
 err.message ||
 
-"One of the artworks is already sold"
+"Unable to create payment order"
 
 );
 
@@ -91,8 +103,19 @@ return;
 }
 
 
-const orderData =
+orderData =
 await orderRes.json();
+
+}
+catch(err){
+
+paymentProcessing = false;
+
+alert("Server error");
+
+return;
+
+}
 
 
 /* razorpay popup */
@@ -119,7 +142,7 @@ description:
 handler:
 async function(response){
 
-/* CRITICAL SAFETY CHECK */
+/* safety check */
 
 if(
 !response ||
@@ -128,11 +151,14 @@ if(
 !response.razorpay_order_id
 ){
 
+paymentProcessing = false;
+
 alert("Payment not completed");
 
 return;
 
 }
+
 
 try{
 
@@ -193,6 +219,8 @@ await verifyRes.json();
 
 if(!result.success){
 
+paymentProcessing = false;
+
 alert(
 
 result.message ||
@@ -246,7 +274,10 @@ window.location.href =
 "success.html";
 
 
-}catch(err){
+}
+catch(err){
+
+paymentProcessing = false;
 
 console.log(err);
 
@@ -259,11 +290,13 @@ alert("Server error");
 };
 
 
-/* payment fail event */
+/* if popup closed */
 
 options.modal = {
 
 ondismiss: function(){
+
+paymentProcessing = false;
 
 console.log("Payment popup closed");
 
@@ -276,13 +309,15 @@ const rzp =
 new Razorpay(options);
 
 
-/* explicit fail listener */
+/* failure event */
 
 rzp.on(
 
 "payment.failed",
 
 function(){
+
+paymentProcessing = false;
 
 alert("Payment failed");
 
