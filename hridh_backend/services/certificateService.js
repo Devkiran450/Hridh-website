@@ -203,7 +203,7 @@ y:720
 doc.end();
 
 
-return fileName;
+return `/certificates/${fileName}`;
 
 }
 
