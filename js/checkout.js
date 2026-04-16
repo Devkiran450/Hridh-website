@@ -50,6 +50,10 @@ cart.reduce(
 );
 
 
+console.log("CART:", cart);
+console.log("TOTAL:", total);
+
+
 /* create razorpay order */
 
 let orderData;
@@ -90,6 +94,8 @@ paymentProcessing = false;
 const err =
 await orderRes.json();
 
+console.log("ORDER CREATE ERROR:", err);
+
 alert(
 
 err.message ||
@@ -106,12 +112,17 @@ return;
 orderData =
 await orderRes.json();
 
+
+console.log("ORDER CREATED:", orderData);
+
 }
 catch(err){
 
 paymentProcessing = false;
 
-alert("Server error");
+console.log("CREATE ORDER SERVER ERROR:", err);
+
+alert("Server error while creating order");
 
 return;
 
@@ -142,6 +153,9 @@ description:
 handler:
 async function(response){
 
+console.log("RAZORPAY SUCCESS RESPONSE:", response);
+
+
 /* safety check */
 
 if(
@@ -152,6 +166,8 @@ if(
 ){
 
 paymentProcessing = false;
+
+console.log("INVALID PAYMENT RESPONSE");
 
 alert("Payment not completed");
 
@@ -217,16 +233,18 @@ const result =
 await verifyRes.json();
 
 
+console.log("VERIFY RESPONSE:", result);
+
+
 if(!result.success){
 
 paymentProcessing = false;
 
+console.log("VERIFY FAILED FULL RESPONSE:");
+console.log(result);
+
 alert(
-
-result.message ||
-
-"Payment verification failed"
-
+"Verification failed. Check console log."
 );
 
 return;
@@ -268,6 +286,9 @@ cart.map(i=>i.id)
 localStorage.removeItem("cart");
 
 
+console.log("PAYMENT VERIFIED SUCCESSFULLY");
+
+
 /* redirect */
 
 window.location.href =
@@ -279,9 +300,9 @@ catch(err){
 
 paymentProcessing = false;
 
-console.log(err);
+console.log("VERIFY SERVER ERROR:", err);
 
-alert("Server error");
+alert("Server error during verification");
 
 }
 
@@ -298,7 +319,7 @@ ondismiss: function(){
 
 paymentProcessing = false;
 
-console.log("Payment popup closed");
+console.log("USER CLOSED PAYMENT POPUP");
 
 }
 
@@ -315,11 +336,16 @@ rzp.on(
 
 "payment.failed",
 
-function(){
+function(response){
 
 paymentProcessing = false;
 
-alert("Payment failed");
+console.log("RAZORPAY FAILURE EVENT:");
+console.log(response);
+
+alert(
+"Payment failed. Check console log."
+);
 
 }
 
