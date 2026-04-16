@@ -180,7 +180,7 @@ doc.image(
 
 path.join(
 __dirname,
-"../images/hridh-seal.png"
+"../../images/hridh-seal.png"
 ),
 
 doc.page.width/2 - 55,
