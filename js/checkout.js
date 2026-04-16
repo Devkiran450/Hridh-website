@@ -119,6 +119,22 @@ description:
 handler:
 async function(response){
 
+/* CRITICAL SAFETY CHECK */
+
+if(
+!response ||
+!response.razorpay_payment_id ||
+!response.razorpay_signature ||
+!response.razorpay_order_id
+){
+
+alert("Payment not completed");
+
+return;
+
+}
+
+try{
 
 const verifyRes =
 await fetch(
@@ -175,8 +191,22 @@ const result =
 await verifyRes.json();
 
 
-if(result.success){
+if(!result.success){
 
+alert(
+
+result.message ||
+
+"Payment verification failed"
+
+);
+
+return;
+
+}
+
+
+/* store certificate url */
 
 localStorage.setItem(
 
@@ -188,6 +218,8 @@ result.certificateUrls
 
 );
 
+
+/* store order */
 
 localStorage.setItem(
 
@@ -203,24 +235,37 @@ cart.map(i=>i.id)
 );
 
 
+/* clear cart */
+
 localStorage.removeItem("cart");
 
+
+/* redirect */
 
 window.location.href =
 "success.html";
 
-}
-else{
 
-alert(
+}catch(err){
 
-result.message ||
+console.log(err);
 
-"Payment verification failed"
-
-);
+alert("Server error");
 
 }
+
+}
+
+};
+
+
+/* payment fail event */
+
+options.modal = {
+
+ondismiss: function(){
+
+console.log("Payment popup closed");
 
 }
 
@@ -231,17 +276,18 @@ const rzp =
 new Razorpay(options);
 
 
-/* if payment popup closed */
+/* explicit fail listener */
 
 rzp.on(
+
 "payment.failed",
+
 function(){
 
-alert(
-"Payment cancelled"
-);
+alert("Payment failed");
 
 }
+
 );
 
 

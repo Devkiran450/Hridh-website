@@ -135,7 +135,6 @@ or refresh this page
 
 <script>
 
-
 /* refresh sold list */
 
 const lastOrder =
@@ -170,7 +169,7 @@ JSON.stringify(data)
 
 
 
-/* certificates */
+/* certificate download */
 
 const certificateUrls =
 JSON.parse(
@@ -180,61 +179,50 @@ localStorage.getItem(
 );
 
 
-
-if(certificateUrls){
+if(certificateUrls && certificateUrls.length){
 
 const popup =
 document.getElementById(
 "certificate-loading"
 );
 
-
 popup.classList.add("show");
 
 
 setTimeout(()=>{
 
-
-certificateUrls.forEach(url=>{
-
 const fileName =
-url.split("/").pop();
+certificateUrls[0]
+.split("/")
+.pop();
 
 
 const link =
 document.createElement("a");
-
 
 link.href =
 
 "https://hridh-backend.onrender.com/download-certificate/"
 + fileName;
 
-
 document.body.appendChild(link);
-
 
 link.click();
 
-
 link.remove();
 
-});
-
-
 popup.classList.remove("show");
-
 
 localStorage.removeItem(
 "certificateUrls"
 );
-
 
 },2000);
 
 }
 
 </script>
+
 
 
 
