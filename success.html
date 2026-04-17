@@ -201,9 +201,11 @@ const link =
 document.createElement("a");
 
 link.href =
-
 "https://hridh-backend.onrender.com/certificates/"
 + fileName;
+
+/* force download */
+link.setAttribute("download", fileName);
 
 document.body.appendChild(link);
 
@@ -217,7 +219,7 @@ localStorage.removeItem(
 "certificateUrls"
 );
 
-},2000);
+},700);
 
 }
 
