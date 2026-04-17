@@ -1,3 +1,4 @@
+document.addEventListener("DOMContentLoaded", updateCartCount);
 document.addEventListener("DOMContentLoaded", function () {
 
 const container = document.getElementById("products");

@@ -1089,6 +1089,65 @@ margin:auto;
 
 }
 
+/* cart container */
+
+.nav-cart{
+
+position:relative;
+
+font-weight:500;
+
+font-size:14px;
+
+padding-right:6px;
+
+}
+
+
+/* floating badge */
+
+.cart-badge{
+
+position:absolute;
+
+top:-6px;
+
+right:-12px;
+
+background:#111;
+
+color:#fff;
+
+font-size:10px;
+
+font-weight:600;
+
+padding:2px 6px;
+
+border-radius:999px;
+
+min-width:16px;
+
+text-align:center;
+
+box-shadow:0 2px 6px rgba(0,0,0,.18);
+
+}
+
+
+/* slight hover polish */
+
+.nav-cart:hover .cart-badge{
+
+transform:translateY(-1px);
+
+}
+
+/* hide badge when empty */
+
+.cart-badge:empty{
+display:none;
+}
 
 /* ================= MOBILE ================= */
 

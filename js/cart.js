@@ -50,7 +50,18 @@ function updateCartCount() {
 
   const el = document.getElementById("cart-count");
 
-  if (el) el.innerText = count;
+  if (!el) return;
+
+  if (count === 0) {
+
+    el.innerText = "";
+
+  } else {
+
+    el.innerText = count;
+
+  }
+
 }
 
 function renderCart(){
