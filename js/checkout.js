@@ -218,6 +218,19 @@ pincode:pincode,
 items:
 cart.map(i=>i.id),
 
+/* IMPORTANT: send product names */
+
+itemsData:
+cart.map(i=>({
+
+id: i.id,
+
+name: i.name,
+
+code: i.code || `HRIDH-${i.id}`
+
+})),
+
 total:total
 
 }

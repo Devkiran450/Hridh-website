@@ -1,4 +1,5 @@
 const razorpay = require("../services/razorpayService");
+const sendTelegramMessage = require("../services/telegramService");
 const crypto = require("crypto");
 const Order = require("../models/Order");
 const generateCertificate = require("../services/certificateService");
@@ -273,17 +274,59 @@ message:"One of the artworks was just sold"
 
 /* save order AFTER verification */
 
-const newOrder =
-new Order({
+const newOrder = new Order({
 
 ...orderData,
 
-paymentId: razorpay_payment_id
+paymentId: razorpay_payment_id,
+
+itemsData: orderData.itemsData || []
 
 });
 
 
 await newOrder.save();
+
+/* build product list */
+
+const productList =
+orderData.items
+.map(id => {
+
+const item =
+newOrder.itemsData?.find(p => p.id == id);
+
+if(item){
+
+return `• ${item.code} — ${item.name}`;
+
+}
+
+return `• Item ID: ${id}`;
+
+})
+.join("\n");
+
+
+/* send telegram alert */
+
+await sendTelegramMessage(
+
+`🛍️ <b>NEW ORDER</b>
+
+<b>Customer:</b>
+${orderData.name}
+${orderData.city}
+${orderData.pincode}
+
+<b>Items:</b>
+${productList}
+
+<b>Total:</b> ₹${orderData.total}
+
+Check admin panel.`
+
+);
 
 
 
