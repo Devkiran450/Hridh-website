@@ -113,13 +113,32 @@ doc.font("Times-Roman")
 .fontSize(16);
 
 
+const item =
+order.itemsData?.find(p => p.id == itemId);
+
+const artworkCode =
+item?.code || `HRIDH-${itemId}`;
+
+const artworkName =
+item?.name || "";
+
 doc.text(
-
-`Artwork ID: HRIDH-${itemId}`,
-
+`Artwork: ${artworkCode}`,
 {align:"center"}
-
 );
+
+if(artworkName){
+
+doc.moveDown(0.3);
+
+doc.fontSize(13).text(
+artworkName,
+{align:"center"}
+);
+
+doc.fontSize(16);
+
+}
 
 
 doc.text(

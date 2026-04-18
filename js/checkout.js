@@ -153,6 +153,10 @@ description:
 handler:
 async function(response){
 
+    document
+.getElementById("payment-processing")
+.classList.add("show");
+
 console.log("RAZORPAY SUCCESS RESPONSE:", response);
 
 
@@ -227,7 +231,7 @@ id: i.id,
 
 name: i.name,
 
-code: i.code || `HRIDH-${i.id}`
+code: i.productId || `HRIDH-${i.id}`
 
 })),
 
