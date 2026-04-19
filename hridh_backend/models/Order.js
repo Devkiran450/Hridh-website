@@ -17,11 +17,35 @@ const OrderSchema = new mongoose.Schema({
     required: true
   },
 
+  city: {
+    type: String
+  },
+
+  pincode: {
+    type: String
+  },
+
+  /* numeric ids */
   items: [
     {
       type: Number,
       required: true
     }
+  ],
+
+  /* product names + codes */
+  itemsData: [
+
+    {
+
+      id: Number,
+
+      code: String,
+
+      name: String
+
+    }
+
   ],
 
   total: {

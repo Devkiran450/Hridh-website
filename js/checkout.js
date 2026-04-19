@@ -231,7 +231,7 @@ id: i.id,
 
 name: i.name,
 
-code: i.productId || `HRIDH-${i.id}`
+code: i.productId
 
 })),
 
