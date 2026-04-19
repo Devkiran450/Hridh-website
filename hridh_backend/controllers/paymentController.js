@@ -294,7 +294,7 @@ orderData.items
 .map(id => {
 
 const item =
-newOrder.itemsData?.find(p => p.id == id);
+newOrder.itemsData?.find(p => String(p.id) === String(id));
 
 if(item){
 

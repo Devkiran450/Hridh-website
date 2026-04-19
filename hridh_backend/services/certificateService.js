@@ -114,7 +114,7 @@ doc.font("Times-Roman")
 
 
 const item =
-order.itemsData?.find(p => p.id == itemId);
+newOrder.itemsData?.find(p => String(p.id) === String(id));
 
 const artworkCode =
 item?.code || `HRIDH-${itemId}`;
