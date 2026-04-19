@@ -2,7 +2,6 @@ const PDFDocument = require("pdfkit");
 const fs = require("fs");
 const path = require("path");
 
-
 function generateCertificate(order,itemId){
 
 return new Promise((resolve,reject)=>{
@@ -31,7 +30,6 @@ const dir =
 path.join(
 __dirname,
 "../certificates"
-
 );
 
 
@@ -84,11 +82,8 @@ doc.moveDown(2);
 doc.font("Times-Bold")
 .fontSize(28)
 .text(
-
 "CERTIFICATE OF AUTHENTICITY",
-
 {align:"center"}
-
 );
 
 
@@ -98,23 +93,20 @@ doc.moveDown();
 doc.font("Times-Italic")
 .fontSize(14)
 .text(
-
 "This document certifies the authenticity of an original HRIDH textile artwork",
-
 {align:"center"}
-
 );
 
 
 doc.moveDown(3);
 
 
-doc.font("Times-Roman")
-.fontSize(16);
-
+/* get product info */
 
 const item =
-newOrder.itemsData?.find(p => String(p.id) === String(id));
+order.itemsData?.find(
+p => String(p.id) === String(itemId)
+);
 
 const artworkCode =
 item?.code || `HRIDH-${itemId}`;
@@ -122,40 +114,58 @@ item?.code || `HRIDH-${itemId}`;
 const artworkName =
 item?.name || "";
 
-doc.text(
-`Artwork: ${artworkCode}`,
+
+/* COLLECTION label */
+
+doc.font("Times-Roman")
+.fontSize(12)
+.fillColor("#555")
+.text(
+"COLLECTION",
 {align:"center"}
 );
 
-if(artworkName){
+doc.moveDown(0.4);
 
-doc.moveDown(0.3);
 
-doc.fontSize(13).text(
+/* artwork name main focus */
+
+doc.font("Times-Bold")
+.fontSize(20)
+.fillColor("#000")
+.text(
 artworkName,
 {align:"center"}
 );
 
-doc.fontSize(16);
-
-}
+doc.moveDown(1);
 
 
-doc.text(
+/* artwork id secondary */
 
-`Owner: ${order.name}`,
-
+doc.font("Times-Roman")
+.fontSize(14)
+.fillColor("#333")
+.text(
+`Artwork ID: ${artworkCode}`,
 {align:"center"}
-
 );
 
 
-doc.text(
+/* owner */
 
-`Purchase Date: ${new Date().toDateString()}`,
-
+doc.fontSize(16)
+.text(
+`Owner: ${order.name}`,
 {align:"center"}
+);
 
+
+/* date */
+
+doc.text(
+`Purchase Date: ${new Date().toDateString()}`,
+{align:"center"}
 );
 
 
@@ -167,29 +177,20 @@ doc.font("Times-Italic")
 
 
 doc.text(
-
 "This artwork is an original hand-painted textile creation.",
-
 {align:"center"}
-
 );
 
 
 doc.text(
-
 "Only ONE version of this artwork exists.",
-
 {align:"center"}
-
 );
 
 
 doc.text(
-
 "No reproductions will ever be created.",
-
 {align:"center"}
-
 );
 
 
@@ -215,21 +216,18 @@ width:110
 
 doc.fontSize(11)
 .text(
-
 "Original Artwork · Edition 1 of 1",
-
 {
 align:"center",
 y:720
 }
-
 );
 
 
 doc.end();
 
 
-/* WAIT until file saved */
+/* wait for file */
 
 stream.on("finish",()=>{
 
@@ -255,6 +253,5 @@ reject(err);
 });
 
 }
-
 
 module.exports = generateCertificate;
