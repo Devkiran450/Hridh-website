@@ -158,6 +158,16 @@ color:{ dark:"#333", light:"#f8f5ef" }
 
 doc.image(qrBuffer,100,620,{width:70});
 
+doc.font("Times-Roman")
+.fontSize(10)
+.fillColor("#555")
+.text(
+"Scan to verify authenticity",
+100,
+695,
+{ width:70, align:"center" }
+);
+
 /* ===================== */
 /* SEAL */
 /* ===================== */
