@@ -77,12 +77,16 @@ doc.font("Times-Roman")
 );
 
 /* ===================== */
-/* FIXED INLINE FIELDS */
+/* STRUCTURED FIELDS */
 /* ===================== */
 
 let startY = 380;
 
 function field(label,value,y){
+
+const lineStart = 200;
+const lineEnd = 480;
+const centerX = (lineStart + lineEnd) / 2;
 
 // label
 doc.font("Times-Roman")
@@ -90,27 +94,33 @@ doc.font("Times-Roman")
 .fillColor("#444")
 .text(label,100,y,{lineBreak:false});
 
-// underline
-doc.moveTo(200,y+12)
-.lineTo(480,y+12)
+// underline (slightly lower)
+doc.moveTo(lineStart,y+18)
+.lineTo(lineEnd,y+18)
 .stroke("#aaa");
 
-// value (bigger, no bold)
+// value centered in line
 doc.font("Times-Roman")
-.fontSize(15)
-.fillColor("#000")
-.text(value,210,y,{lineBreak:false});
+.fontSize(18)
+.fillColor("#000");
+
+const textWidth = doc.widthOfString(value);
+
+doc.text(value, centerX - textWidth/2, y, {
+lineBreak:false
+});
+
 }
 
 field("ARTWORK ID",artworkCode,startY);
-field("OWNER",order.name,startY+40);
-field("DATE",new Date().toDateString(),startY+80);
+field("OWNER",order.name,startY+50);
+field("DATE",new Date().toDateString(),startY+100);
 
 /* ===================== */
 /* LABEL SIGNATURE */
 /* ===================== */
 
-const sigY = startY + 130;
+const sigY = startY + 170;
 
 // label
 doc.font("Times-Roman")
@@ -118,18 +128,18 @@ doc.font("Times-Roman")
 .fillColor("#444")
 .text("LABEL SIGNATURE",100,sigY,{lineBreak:false});
 
-// underline
-doc.moveTo(250,sigY+12)
-.lineTo(420,sigY+12)
+// underline (lowered)
+doc.moveTo(250,sigY+20)
+.lineTo(420,sigY+20)
 .stroke("#aaa");
 
-// signature image (clean right placement)
+// signature image BELOW line (no overlap)
 doc.opacity(0.95);
 
 doc.image(
 path.join(__dirname,"../../images/hridh_signature-removebg-preview.png"),
 300,
-sigY - 8,
+sigY + 25,
 { width:110 }
 );
 
@@ -148,7 +158,10 @@ color:{ dark:"#333", light:"#f8f5ef" }
 
 doc.image(qrBuffer,100,620,{width:70});
 
-/* seal */
+/* ===================== */
+/* SEAL */
+/* ===================== */
+
 doc.image(
 path.join(__dirname,"../../images/hridh-seal.png"),
 400,
