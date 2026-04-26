@@ -77,7 +77,7 @@ doc.font("Times-Roman")
 );
 
 /* ===================== */
-/* STRUCTURED FIELDS */
+/* FIXED INLINE FIELDS */
 /* ===================== */
 
 let startY = 380;
@@ -86,51 +86,51 @@ function field(label,value,y){
 
 // label
 doc.font("Times-Roman")
-.fontSize(11)
+.fontSize(12)
 .fillColor("#444")
-.text(label,100,y);
+.text(label,100,y,{lineBreak:false});
 
 // underline
-doc.moveTo(200,y+14)
-.lineTo(480,y+14)
+doc.moveTo(200,y+12)
+.lineTo(480,y+12)
 .stroke("#aaa");
 
-// value (bigger but NOT aggressive bold)
+// value (bigger, no bold)
 doc.font("Times-Roman")
-.fontSize(16)   // 🔥 increased from 12 → 16
+.fontSize(15)
 .fillColor("#000")
-.text(value,210,y);
+.text(value,210,y,{lineBreak:false});
 }
 
 field("ARTWORK ID",artworkCode,startY);
-field("OWNER",order.name,startY+45);
-field("DATE",new Date().toDateString(),startY+90);
+field("OWNER",order.name,startY+40);
+field("DATE",new Date().toDateString(),startY+80);
 
 /* ===================== */
 /* LABEL SIGNATURE */
 /* ===================== */
 
-const sigY = startY + 150;
+const sigY = startY + 130;
 
 // label
 doc.font("Times-Roman")
-.fontSize(11)
+.fontSize(12)
 .fillColor("#444")
-.text("LABEL SIGNATURE",100,sigY);
+.text("LABEL SIGNATURE",100,sigY,{lineBreak:false});
 
 // underline
-doc.moveTo(250,sigY+15)
-.lineTo(420,sigY+15)
+doc.moveTo(250,sigY+12)
+.lineTo(420,sigY+12)
 .stroke("#aaa");
 
-// signature image (RIGHT SIDE, NO OVERLAP)
+// signature image (clean right placement)
 doc.opacity(0.95);
 
 doc.image(
 path.join(__dirname,"../../images/hridh_signature-removebg-preview.png"),
-330,           // 👉 shifted right
-sigY - 5,      // 👉 slightly above line
-{ width:100 }
+300,
+sigY - 8,
+{ width:110 }
 );
 
 doc.opacity(1);
