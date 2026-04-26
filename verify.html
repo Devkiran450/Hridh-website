@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HRIDH Verification</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Georgia', serif;
+  background: #f8f5ef;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.card {
+  background: white;
+  padding: 40px;
+  width: 90%;
+  max-width: 420px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.title {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.status {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.valid { color: green; }
+.invalid { color: red; }
+.warn { color: #b38b00; }
+
+.info {
+  font-size: 14px;
+  color: #333;
+  margin-top: 10px;
+}
+
+.footer {
+  margin-top: 20px;
+  font-size: 12px;
+  color: #777;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <div class="title">HRIDH Verification</div>
+  <div id="status" class="status">Checking...</div>
+  <div id="details"></div>
+  <div class="footer">
+    This verification confirms the artwork record, not physical certificate ownership.
+  </div>
+</div>
+
+<script>
+
+function getParams() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    code: params.get("code"),
+    cert: params.get("cert")
+  };
+}
+
+async function verify() {
+
+  const { code, cert } = getParams();
+
+  if (!code || !cert) {
+    document.getElementById("status").innerText = "Invalid request";
+    return;
+  }
+
+  try {
+
+    const res = await fetch(`https://hridh-backend.onrender.com/api/verify/${code}?cert=${cert}`);
+    const data = await res.json();
+
+    const statusEl = document.getElementById("status");
+    const detailsEl = document.getElementById("details");
+
+    if (data.valid) {
+
+      statusEl.innerText = "✔ Verified HRIDH Original";
+      statusEl.className = "status valid";
+
+      detailsEl.innerHTML = `
+        <div class="info">Artwork ID: ${data.code}</div>
+        <div class="info">Owner: ${data.owner}</div>
+        <div class="info">Date: ${new Date(data.date).toDateString()}</div>
+      `;
+
+    } else if (data.type === "mismatch") {
+
+      statusEl.innerText = "⚠ Certificate mismatch";
+      statusEl.className = "status warn";
+
+      detailsEl.innerHTML = `
+        <div class="info">This artwork exists, but this certificate is not valid.</div>
+      `;
+
+    } else {
+
+      statusEl.innerText = "❌ Not Found";
+      statusEl.className = "status invalid";
+
+      detailsEl.innerHTML = `
+        <div class="info">No record found in HRIDH registry.</div>
+      `;
+
+    }
+
+  } catch (err) {
+  const statusEl = document.getElementById("status");
+  statusEl.innerText = "Verification unavailable";
+  statusEl.className = "status warn";
+}
+}
+
+verify();
+
+</script>
+
+</body>
+</html>

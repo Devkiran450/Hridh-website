@@ -10,208 +10,142 @@ return new Promise(async (resolve,reject)=>{
 try{
 
 const doc = new PDFDocument({
-
 size:"A4",
-
-margins:{
-top:80,
-bottom:80,
-left:70,
-right:70
-}
-
+margin:0
 });
 
 const fileName =
 `certificate_${order.paymentId}_${itemId}.pdf`;
 
-const dir =
-path.join(
-__dirname,
-"../certificates"
-);
+const dir = path.join(__dirname,"../certificates");
 
 if(!fs.existsSync(dir)){
 fs.mkdirSync(dir);
 }
 
-const filePath =
-path.join(dir,fileName);
-
-const stream =
-fs.createWriteStream(filePath);
+const filePath = path.join(dir,fileName);
+const stream = fs.createWriteStream(filePath);
 
 doc.pipe(stream);
 
 /* background */
-doc.rect(0,0,595,842)
-.fill("#f8f5ef");
+doc.rect(0,0,595,842).fill("#f8f5ef");
 
 /* border */
-doc.lineWidth(3)
+doc.lineWidth(2)
 .rect(40,40,515,762)
-.stroke("#1c1c1c");
+.stroke("#c9b37e");
 
 doc.lineWidth(1)
 .rect(55,55,485,732)
-.stroke("#1c1c1c");
+.stroke("#c9b37e");
 
 /* title */
 doc.font("Times-Bold")
-.fontSize(14)
-.fillColor("#333")
-.text("HRIDH",{align:"center"});
-
-doc.moveDown(2);
-
-doc.font("Times-Bold")
-.fontSize(28)
-.text("CERTIFICATE OF AUTHENTICITY",{align:"center"});
-
-doc.moveDown();
-
-doc.font("Times-Italic")
-.fontSize(14)
-.text(
-"This document certifies the authenticity of an original HRIDH textile artwork",
-{align:"center"}
-);
-
-doc.moveDown(3);
-
-/* get product info */
-const item =
-order.itemsData?.find(
-p => String(p.id) === String(itemId)
-);
-
-const artworkCode =
-item?.code || `HRIDH-${itemId}`;
-
-const artworkName =
-item?.name || "";
-
-/* COLLECTION label */
-doc.font("Times-Roman")
-.fontSize(12)
-.fillColor("#555")
-.text("COLLECTION",{align:"center"});
-
-doc.moveDown(0.4);
-
-/* artwork name */
-doc.font("Times-Bold")
-.fontSize(20)
+.fontSize(26)
 .fillColor("#000")
-.text(artworkName,{align:"center"});
+.text("CERTIFICATE OF",0,120,{align:"center"});
 
-doc.moveDown(1);
+doc.fontSize(40)
+.text("AUTHENTICITY",0,150,{align:"center"});
 
-/* artwork id */
-doc.font("Times-Roman")
-.fontSize(14)
-.fillColor("#333")
-.text(`Artwork ID: ${artworkCode}`,{align:"center"});
+/* divider */
+doc.moveTo(250,210).lineTo(345,210).stroke("#c9b37e");
 
-/* certificate id (NEW) */
+/* product info */
+const item =
+order.itemsData?.find(p => String(p.id)===String(itemId));
+
+const artworkCode = item?.code || `HRIDH-${itemId}`;
+const artworkName = item?.name || "";
+
+/* artwork title */
+doc.font("Times-Italic")
+.fontSize(26)
+.fillColor("#b89b5e")
+.text(artworkName,0,240,{align:"center"});
+
+/* description */
 doc.font("Times-Roman")
 .fontSize(12)
-.text(`Certificate ID: ${order.certificateId}`,{align:"center"});
-
-/* owner */
-doc.fontSize(16)
-.text(`Owner: ${order.name}`,{align:"center"});
-
-/* date */
-doc.text(
-`Purchase Date: ${new Date().toDateString()}`,
-{align:"center"}
+.fillColor("#333")
+.text(
+"This artwork is an original, one-of-a-kind hand-painted textile creation.\nThis artwork is not reproduced or replicated in any form.\nYou now own the only piece of its kind.",
+100,
+290,
+{align:"center",width:400}
 );
 
-doc.moveDown(3);
+/* left fields */
+let startY = 380;
 
-/* statement */
+function field(label,value,y){
+doc.font("Times-Roman")
+.fontSize(11)
+.fillColor("#444")
+.text(label,100,y);
+
+doc.moveTo(200,y+12)
+.lineTo(480,y+12)
+.stroke("#aaa");
+
+doc.font("Times-Roman")
+.fontSize(12)
+.fillColor("#000")
+.text(value,210,y);
+}
+
+field("ARTWORK ID",artworkCode,startY);
+field("OWNER",order.name,startY+40);
+field("DATE",new Date().toDateString(),startY+80);
+
+/* signature */
+doc.font("Times-Roman")
+.fontSize(11)
+.text("ARTIST SIGNATURE",100,startY+140);
+
+doc.moveTo(250,startY+155)
+.lineTo(420,startY+155)
+.stroke("#aaa");
+
+/* hridh signature text */
 doc.font("Times-Italic")
-.fontSize(16);
+.fontSize(18)
+.text("Hridh",260,startY+130);
 
-doc.text(
-"This artwork is an original hand-painted textile creation.",
-{align:"center"}
-);
-
-doc.text(
-"Only ONE version of this artwork exists.",
-{align:"center"}
-);
-
-doc.text(
-"No reproductions will ever be created.",
-{align:"center"}
-);
-
-/* ================= QR ================= */
+/* QR */
 const verifyUrl =
 `https://hridh.com/verify.html?code=${artworkCode}&cert=${order.certificateId}`;
 
-const qrBuffer =
-await QRCode.toBuffer(verifyUrl,{
-color:{
-dark:"#333333",
-light:"#f8f5ef"
-}
+const qrBuffer = await QRCode.toBuffer(verifyUrl,{
+color:{ dark:"#333", light:"#f8f5ef" }
 });
 
-/* separator */
-doc.moveTo(200,660)
-.lineTo(395,660)
-.strokeColor("#aaa")
-.stroke();
-
-/* label */
-doc.font("Times-Roman")
-.fontSize(10)
-.fillColor("#555")
-.text("Verify authenticity",0,670,{align:"center"});
-
-/* QR */
-doc.image(
-qrBuffer,
-doc.page.width/2 - 40,
-690,
-{ width:80 }
-);
+doc.image(qrBuffer,100,620,{width:70});
 
 /* seal */
 doc.image(
-path.join(
-__dirname,
-"../../images/hridh-seal.png"
-),
-doc.page.width/2 - 55,
-560,
-{ width:110 }
+path.join(__dirname,"../../images/hridh-seal.png"),
+400,
+600,
+{width:120}
 );
 
 /* footer */
-doc.fontSize(11)
+doc.font("Times-Roman")
+.fontSize(10)
+.fillColor("#666")
 .text(
-"Original Artwork · Edition 1 of 1",
-{
-align:"center",
-y:720
-}
+"THANK YOU FOR SUPPORTING ORIGINAL ART",
+0,
+750,
+{align:"center"}
 );
 
 doc.end();
 
-/* wait */
-stream.on("finish",()=>{
-resolve(fileName);
-});
-
-stream.on("error",(err)=>{
-reject(err);
-});
+stream.on("finish",()=>resolve(fileName));
+stream.on("error",(err)=>reject(err));
 
 }
 catch(err){
