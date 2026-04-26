@@ -77,66 +77,60 @@ doc.font("Times-Roman")
 );
 
 /* ===================== */
-/* CENTER DOMINANT FIELDS */
+/* STRUCTURED FIELDS */
 /* ===================== */
 
-let centerY = 380;
+let startY = 380;
 
-/* Artwork ID */
+function field(label,value,y){
+
+// label
 doc.font("Times-Roman")
-.fontSize(12)
-.fillColor("#777")
-.text("ARTWORK ID",0,centerY,{align:"center"});
+.fontSize(11)
+.fillColor("#444")
+.text(label,100,y);
 
-doc.font("Times-Bold")
-.fontSize(22)
-.fillColor("#000")
-.text(artworkCode,0,centerY+20,{align:"center"});
+// underline
+doc.moveTo(200,y+14)
+.lineTo(480,y+14)
+.stroke("#aaa");
 
-/* Owner (MOST IMPORTANT) */
+// value (bigger but NOT aggressive bold)
 doc.font("Times-Roman")
-.fontSize(12)
-.fillColor("#777")
-.text("OWNER",0,centerY+80,{align:"center"});
-
-doc.font("Times-Bold")
-.fontSize(28)   // 🔥 bigger = premium feel
+.fontSize(16)   // 🔥 increased from 12 → 16
 .fillColor("#000")
-.text(order.name,0,centerY+100,{align:"center"});
+.text(value,210,y);
+}
 
-/* Date */
-doc.font("Times-Roman")
-.fontSize(12)
-.fillColor("#777")
-.text("DATE",0,centerY+170,{align:"center"});
-
-doc.font("Times-Bold")
-.fontSize(18)
-.fillColor("#000")
-.text(new Date().toDateString(),0,centerY+190,{align:"center"});
+field("ARTWORK ID",artworkCode,startY);
+field("OWNER",order.name,startY+45);
+field("DATE",new Date().toDateString(),startY+90);
 
 /* ===================== */
 /* LABEL SIGNATURE */
 /* ===================== */
 
+const sigY = startY + 150;
+
+// label
 doc.font("Times-Roman")
 .fontSize(11)
 .fillColor("#444")
-.text("LABEL SIGNATURE",0,centerY+250,{align:"center"});
+.text("LABEL SIGNATURE",100,sigY);
 
-/* signature line */
-doc.moveTo(200,centerY+270)
-.lineTo(395,centerY+270)
+// underline
+doc.moveTo(250,sigY+15)
+.lineTo(420,sigY+15)
 .stroke("#aaa");
 
-/* transparent signature image */
+// signature image (RIGHT SIDE, NO OVERLAP)
 doc.opacity(0.95);
 
 doc.image(
 path.join(__dirname,"../../images/hridh_signature-removebg-preview.png"),
-doc.page.width/2 - 60,
-centerY+235,
-{ width:120 }
+330,           // 👉 shifted right
+sigY - 5,      // 👉 slightly above line
+{ width:100 }
 );
 
 doc.opacity(1);
