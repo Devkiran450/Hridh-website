@@ -100,8 +100,8 @@ doc.moveTo(lineStart,y+18)
 .stroke("#aaa");
 
 // value centered in line
-doc.font("Times-Roman")
-.fontSize(18)
+doc.font("Times-Italic")
+.fontSize(22)
 .fillColor("#000");
 
 const textWidth = doc.widthOfString(value);
@@ -139,7 +139,7 @@ doc.opacity(0.95);
 doc.image(
 path.join(__dirname,"../../images/hridh_signature-removebg-preview.png"),
 300,
-sigY + 25,
+sigY - 5,   // 👈 moved upward
 { width:110 }
 );
 
