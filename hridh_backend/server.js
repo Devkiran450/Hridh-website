@@ -55,6 +55,45 @@ res.send("HRIDH backend running");
 /* start */
 const PORT = process.env.PORT || 5000;
 
+const Order = require("./models/Order");
+
+app.get("/api/verify/:code", async (req,res)=>{
+
+try{
+
+const { code } = req.params;
+const { cert } = req.query;
+
+const order = await Order.findOne({
+  "itemsData.code": code
+});
+
+if(!order){
+return res.json({ valid:false, type:"not_found" });
+}
+
+if(order.certificateId !== cert){
+return res.json({ valid:false, type:"mismatch" });
+}
+
+const item =
+order.itemsData?.find(i => i.code === code);
+
+res.json({
+valid:true,
+code,
+name:item?.name,
+owner:order.name,
+date:order.createdAt
+});
+
+}
+catch(err){
+res.status(500).json({ valid:false });
+}
+
+});
+
 app.listen(PORT,()=>{
 console.log("Server running on port",PORT);
 });

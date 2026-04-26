@@ -274,16 +274,15 @@ message:"One of the artworks was just sold"
 
 /* save order AFTER verification */
 
+const certificateId =
+"CERT-" + crypto.randomBytes(3).toString("hex").toUpperCase();
+
 const newOrder = new Order({
-
-...orderData,
-
-paymentId: razorpay_payment_id,
-
-itemsData: orderData.itemsData || []
-
+  ...orderData,
+  paymentId: razorpay_payment_id,
+  itemsData: orderData.itemsData || [],
+  certificateId
 });
-
 
 await newOrder.save();
 
