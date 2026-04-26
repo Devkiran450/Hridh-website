@@ -76,44 +76,75 @@ doc.font("Times-Roman")
 {align:"center",width:400}
 );
 
-/* left fields */
-let startY = 380;
+/* ===================== */
+/* CENTER DOMINANT FIELDS */
+/* ===================== */
 
-function field(label,value,y){
+let centerY = 380;
+
+/* Artwork ID */
+doc.font("Times-Roman")
+.fontSize(12)
+.fillColor("#777")
+.text("ARTWORK ID",0,centerY,{align:"center"});
+
+doc.font("Times-Bold")
+.fontSize(22)
+.fillColor("#000")
+.text(artworkCode,0,centerY+20,{align:"center"});
+
+/* Owner (MOST IMPORTANT) */
+doc.font("Times-Roman")
+.fontSize(12)
+.fillColor("#777")
+.text("OWNER",0,centerY+80,{align:"center"});
+
+doc.font("Times-Bold")
+.fontSize(28)   // 🔥 bigger = premium feel
+.fillColor("#000")
+.text(order.name,0,centerY+100,{align:"center"});
+
+/* Date */
+doc.font("Times-Roman")
+.fontSize(12)
+.fillColor("#777")
+.text("DATE",0,centerY+170,{align:"center"});
+
+doc.font("Times-Bold")
+.fontSize(18)
+.fillColor("#000")
+.text(new Date().toDateString(),0,centerY+190,{align:"center"});
+
+/* ===================== */
+/* LABEL SIGNATURE */
+/* ===================== */
+
 doc.font("Times-Roman")
 .fontSize(11)
 .fillColor("#444")
-.text(label,100,y);
+.text("LABEL SIGNATURE",0,centerY+250,{align:"center"});
 
-doc.moveTo(200,y+12)
-.lineTo(480,y+12)
+/* signature line */
+doc.moveTo(200,centerY+270)
+.lineTo(395,centerY+270)
 .stroke("#aaa");
 
-doc.font("Times-Roman")
-.fontSize(12)
-.fillColor("#000")
-.text(value,210,y);
-}
+/* transparent signature image */
+doc.opacity(0.95);
 
-field("ARTWORK ID",artworkCode,startY);
-field("OWNER",order.name,startY+40);
-field("DATE",new Date().toDateString(),startY+80);
+doc.image(
+path.join(__dirname,"../../images/hridh_signature-removebg-preview.png"),
+doc.page.width/2 - 60,
+centerY+235,
+{ width:120 }
+);
 
-/* signature */
-doc.font("Times-Roman")
-.fontSize(11)
-.text("ARTIST SIGNATURE",100,startY+140);
+doc.opacity(1);
 
-doc.moveTo(250,startY+155)
-.lineTo(420,startY+155)
-.stroke("#aaa");
-
-/* hridh signature text */
-doc.font("Times-Italic")
-.fontSize(18)
-.text("Hridh",260,startY+130);
-
+/* ===================== */
 /* QR */
+/* ===================== */
+
 const verifyUrl =
 `https://hridh.com/verify.html?code=${artworkCode}&cert=${order.certificateId}`;
 
