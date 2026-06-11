@@ -52,6 +52,10 @@ ${product.sold ? `<div class="sold-badge">SOLD</div>` : ""}
 
 <h3>${product.name}</h3>
 
+<p class="product-tagline">
+${product.tagline || ""}
+</p>
+
 <p class="product-code">
 
 ${product.productId || product.code}

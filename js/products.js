@@ -7,7 +7,8 @@ year:2026,
 edition:"1 of 1",
 sold:false,
 
-name:"Blue Yellow Whirlpool Contemporary Art",
+name:"NEEL CHAKRA",
+tagline:"Blue Yellow Whirlpool Contemporary Art",
 
 price:2999,
 originalPrice:3999,
@@ -31,7 +32,8 @@ year:2026,
 edition:"1 of 1",
 sold:false,
 
-name:"Brush Stroke Modern Abstract Linen Art",
+name:"RANGREZ",
+tagline:"Brush Stroke Modern Abstract Linen Art",
 
 price:2999,
 originalPrice:3999,
@@ -55,7 +57,8 @@ year:2026,
 edition:"1 of 1",
 sold:false,
 
-name:"Black Gold Leaf Luxe Textile Art",
+name:"SUNEHRI DHOOP",
+tagline:"Black Gold Leaf Luxe Textile Art",
 
 price:3999,
 originalPrice:4999,
@@ -79,7 +82,8 @@ year:2026,
 edition:"1 of 1",
 sold:false,
 
-name:"Black Pink Rose Artistic Floral Design",
+name:"GUL MOHAR",
+tagline:"Black Pink Rose Artistic Floral Design",
 
 price:3999,
 originalPrice:4999,
@@ -103,7 +107,8 @@ year:2026,
 edition:"1 of 1",
 sold:false,
 
-name:"Guitar Linen Flax Artistic Textile",
+name:"RAAG SAAZ",
+tagline:"Guitar Linen Flax Artistic Textile",
 
 price:3999,
 originalPrice:4999,
@@ -127,7 +132,8 @@ year:2026,
 edition:"1 of 1",
 sold:false,
 
-name:"Black Pelican Minimal Wildlife Art",
+name:"NEEL PARINDA",
+tagline:"Black Pelican Minimal Wildlife Art",
 
 price:3999,
 originalPrice:4999,
@@ -151,7 +157,8 @@ year:2026,
 edition:"1 of 1",
 sold:false,
 
-name:"Yellow Pink Bubble Abstract Art",
+name:"LEHAR BAAG",
+tagline:"Yellow Pink Bubble Abstract Art",
 
 price:2999,
 originalPrice:3999,
@@ -175,7 +182,8 @@ year:2026,
 edition:"1 of 1",
 sold:false,
 
-name:"Yellow House Hand-Painted Textile Art",
+name:"AANGAN E MEHFIL",
+tagline:"Yellow House Hand-Painted Textile Art",
 
 price:3999,
 originalPrice:4999,
@@ -199,7 +207,8 @@ year:2026,
 edition:"1 of 1",
 sold:false,
 
-name:"Black Castle Statement Textile Art",
+name:"SAANJH MAHAL",
+tagline:"Black Castle Statement Textile Art",
 
 price:3999,
 originalPrice:4999,
@@ -223,7 +232,8 @@ year:2026,
 edition:"1 of 1",
 sold:false,
 
-name:"Tomato Black Leaf Botanical Art",
+name:"NOOR GULABI",
+tagline:"Tomato Black Leaf Botanical Art",
 
 price:2999,
 originalPrice:3999,

@@ -231,6 +231,8 @@ id: i.id,
 
 name: i.name,
 
+tagline: i.tagline,
+
 code: i.productId
 
 })),

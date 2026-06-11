@@ -78,6 +78,15 @@
 
 <h2 id="product-name"></h2>
 
+<p id="product-tagline"
+style="
+margin-top:6px;
+margin-bottom:18px;
+color:#666;
+font-size:16px;
+">
+</p>
+
 <div class="pdp-pricing">
 
 <div class="deal-badge">Launch Offer</div>
@@ -216,6 +225,9 @@ if(soldIds.includes(product.id)) product.sold = true;
 /* TEXT */
 
 document.getElementById("product-name").innerText = product.name;
+
+document.getElementById("product-tagline").innerText =
+product.tagline || "";
 
 document.getElementById("product-story").innerText = product.story;
 
