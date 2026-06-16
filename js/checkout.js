@@ -362,9 +362,7 @@ paymentProcessing = false;
 console.log("RAZORPAY FAILURE EVENT:");
 console.log(response);
 
-alert(
-"Payment failed. Check console log."
-);
+window.location.href = "payment-failed.html";
 
 }
 
