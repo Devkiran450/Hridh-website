@@ -134,7 +134,7 @@ return;
 const options = {
 
 key:
-"rzp_test_SRQJ5gWZjy9rqr",
+"rzp_live_T2M1foF6ifIfpn",
 
 amount:
 orderData.amount,

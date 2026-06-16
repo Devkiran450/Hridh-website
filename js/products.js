@@ -10,8 +10,8 @@ sold:false,
 name:"NEEL CHAKRA",
 tagline:"Blue Yellow Whirlpool Contemporary Art",
 
-price:2999,
-originalPrice:3999,
+price:3999,
+originalPrice:4999,
 
 story:"Inspired by the fluid motion of water currents, this hand-painted design blends deep blues with warm yellow tones to create a striking whirlpool effect.",
 
@@ -35,8 +35,8 @@ sold:false,
 name:"RANGREZ",
 tagline:"Brush Stroke Modern Abstract Linen Art",
 
-price:2999,
-originalPrice:3999,
+price:3999,
+originalPrice:4999,
 
 story:"Bold brush strokes flow across natural linen, creating a modern abstract composition that captures spontaneity and energy.",
 
@@ -160,8 +160,8 @@ sold:false,
 name:"LEHAR BAAG",
 tagline:"Yellow Pink Bubble Abstract Art",
 
-price:2999,
-originalPrice:3999,
+price:3999,
+originalPrice:4999,
 
 story:"Vibrant yellow and pink tones form playful bubble-like patterns, creating a lively abstract composition.",
 
@@ -235,8 +235,8 @@ sold:false,
 name:"NOOR GULABI",
 tagline:"Tomato Black Leaf Botanical Art",
 
-price:2999,
-originalPrice:3999,
+price:3999,
+originalPrice:4999,
 
 story:"Rich tomato red tones meet deep black botanical leaves, creating a bold yet elegant nature inspired design.",
 
