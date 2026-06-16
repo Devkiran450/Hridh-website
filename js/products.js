@@ -10,7 +10,7 @@ sold:false,
 name:"NEEL CHAKRA",
 tagline:"Blue Yellow Whirlpool Contemporary Art",
 
-price:3999,
+price:1,
 originalPrice:4999,
 
 story:"Inspired by the fluid motion of water currents, this hand-painted design blends deep blues with warm yellow tones to create a striking whirlpool effect.",
