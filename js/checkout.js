@@ -270,6 +270,16 @@ return;
 
 }
 
+// Meta Pixel Purchase
+if (typeof fbq === "function") {
+    fbq('track', 'Purchase', {
+        value: total,
+        currency: 'INR',
+        content_ids: cart.map(i => i.productId),
+        content_name: cart.map(i => i.name).join(", ")
+    });
+}
+
 
 /* store certificate url */
 

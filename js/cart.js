@@ -22,6 +22,16 @@ function addToCart(product) {
   cart.push({ ...product, qty: 1 });
 
   saveCart(cart);
+
+  if (typeof fbq === "function") {
+    fbq('track', 'AddToCart', {
+        content_ids: [product.productId],
+        content_name: product.name,
+        value: product.price,
+        currency: 'INR'
+    });
+  }
+
   updateCartCount();
 }
 
@@ -144,6 +154,12 @@ if (checkoutBtn) {
       return;
 
     }
+
+    if (typeof fbq === "function") {
+    fbq('track', 'InitiateCheckout', {
+        currency: 'INR'
+    });
+  }
 
     window.location.href = "checkout.html";
 
