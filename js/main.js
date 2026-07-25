@@ -1,8 +1,30 @@
-document.addEventListener("DOMContentLoaded", updateCartCount);
 document.addEventListener("DOMContentLoaded", function () {
 
 const container = document.getElementById("products");
 const searchInput = document.getElementById("nav-search-input");
+
+const waButton = document.querySelector(".wa-button");
+
+if (waButton && window.innerWidth <= 768) {
+
+    // Show only once per browser tab/session
+    if (!sessionStorage.getItem("waShown")) {
+
+        sessionStorage.setItem("waShown", "true");
+
+        setTimeout(() => {
+
+            waButton.classList.add("mobile-show");
+
+            setTimeout(() => {
+                waButton.classList.remove("mobile-show");
+            }, 4000);
+
+        }, 2000);
+
+    }
+
+}
 
 /* ---------------- TOAST ---------------- */
 
